@@ -3,102 +3,53 @@
 import { Link, useLocation } from "react-router-dom"
 import { Button } from "@/components/ui/button"
 import { useState, useRef, useEffect } from "react"
-import { Menu, X, ChevronDown, MessageSquare, Bot, Inbox, Phone, MessageCircle, Mail, HelpCircle, Zap, Puzzle, ShoppingCart, Building2, Heart, Home, GraduationCap, UtensilsCrossed, BarChart3, BookOpen, Users, FileText, Activity, Layers } from "lucide-react"
+import { Menu, X, ChevronDown, MessageSquare, Bot, Inbox, Phone, MessageCircle, Mail, HelpCircle, Zap, Puzzle, ShoppingCart, Building2, Heart, Home, GraduationCap, UtensilsCrossed, BarChart3, BookOpen, Users, FileText, Activity, Layers, Sparkles, Wand2, Headset, ShoppingBag, CalendarClock, Filter, Boxes } from "lucide-react"
 import { BreadcrumbSchema } from "@/components/json-ld"
 
-const productLinks = [
+const productGroups = [
   {
-    name: "AI Agent",
-    href: "/ai-agent",
-    icon: Bot,
-    desc: "Captain resolves 60% of chats",
-    tileBg: "bg-blue-50",
-    tileRing: "ring-blue-100",
-    iconColor: "text-blue-600",
-    badge: "Flagship",
+    heading: "AI",
+    items: [
+      { name: "Agentic AI", href: "/agentic-ai", icon: Sparkles, desc: "Takes action, not just answers", tileBg: "bg-blue-50", tileRing: "ring-blue-100", iconColor: "text-blue-600", badge: "New" },
+      { name: "AI Agent", href: "/ai-agent", icon: Bot, desc: "Captain resolves 60% of chats", tileBg: "bg-blue-50", tileRing: "ring-blue-100", iconColor: "text-blue-600", badge: "Flagship" },
+      { name: "Agent Copilot", href: "/products/agent-copilot", icon: Wand2, desc: "AI inside the reply box", tileBg: "bg-violet-50", tileRing: "ring-violet-100", iconColor: "text-violet-600" },
+    ],
   },
   {
-    name: "Live Chat",
-    href: "/live-chat",
-    icon: MessageSquare,
-    desc: "Free widget, on your site in 5 min",
-    tileBg: "bg-sky-50",
-    tileRing: "ring-sky-100",
-    iconColor: "text-sky-600",
+    heading: "AI agents",
+    items: [
+      { name: "Customer Service", href: "/ai-agents/customer-service", icon: Headset, desc: "Deflect & resolve tickets", tileBg: "bg-sky-50", tileRing: "ring-sky-100", iconColor: "text-sky-600" },
+      { name: "Sales", href: "/ai-agents/sales", icon: ShoppingBag, desc: "Turn chats into orders", tileBg: "bg-emerald-50", tileRing: "ring-emerald-100", iconColor: "text-emerald-600" },
+      { name: "Booking", href: "/ai-agents/booking", icon: CalendarClock, desc: "Fill your calendar", tileBg: "bg-violet-50", tileRing: "ring-violet-100", iconColor: "text-violet-600" },
+      { name: "Lead Qualification", href: "/ai-agents/lead-qualification", icon: Filter, desc: "Score & route leads", tileBg: "bg-rose-50", tileRing: "ring-rose-100", iconColor: "text-rose-600" },
+      { name: "Agent Builder", href: "/ai-agents/agent-builder", icon: Boxes, desc: "Build agents, no code", tileBg: "bg-cyan-50", tileRing: "ring-cyan-100", iconColor: "text-cyan-600" },
+    ],
   },
   {
-    name: "Inbox",
-    href: "/inbox",
-    icon: Inbox,
-    desc: "10 channels, one screen",
-    tileBg: "bg-indigo-50",
-    tileRing: "ring-indigo-100",
-    iconColor: "text-indigo-600",
+    heading: "Channels",
+    items: [
+      { name: "Omnichannel Inbox", href: "/products/omnichannel-inbox", icon: Layers, desc: "7 channels, one inbox", tileBg: "bg-indigo-50", tileRing: "ring-indigo-100", iconColor: "text-indigo-600" },
+      { name: "Live Chat", href: "/live-chat", icon: MessageSquare, desc: "Free widget in 5 min", tileBg: "bg-sky-50", tileRing: "ring-sky-100", iconColor: "text-sky-600" },
+      { name: "Inbox", href: "/inbox", icon: Inbox, desc: "10 channels, one screen", tileBg: "bg-blue-50", tileRing: "ring-blue-100", iconColor: "text-blue-600" },
+      { name: "Voice", href: "/voice", icon: Phone, desc: "US numbers from $5/mo", tileBg: "bg-cyan-50", tileRing: "ring-cyan-100", iconColor: "text-cyan-600" },
+      { name: "SMS", href: "/sms", icon: MessageCircle, desc: "$0.005 per segment", tileBg: "bg-violet-50", tileRing: "ring-violet-100", iconColor: "text-violet-600" },
+      { name: "Email", href: "/email", icon: Mail, desc: "Shared team inbox", tileBg: "bg-rose-50", tileRing: "ring-rose-100", iconColor: "text-rose-600" },
+      { name: "WhatsApp", href: "/whatsapp", icon: MessageCircle, desc: "Two-way, free on every plan", tileBg: "bg-emerald-50", tileRing: "ring-emerald-100", iconColor: "text-emerald-600" },
+    ],
   },
   {
-    name: "Voice",
-    href: "/voice",
-    icon: Phone,
-    desc: "US numbers from $5/month",
-    tileBg: "bg-cyan-50",
-    tileRing: "ring-cyan-100",
-    iconColor: "text-cyan-600",
-  },
-  {
-    name: "SMS",
-    href: "/sms",
-    icon: MessageCircle,
-    desc: "$0.005 per segment",
-    tileBg: "bg-violet-50",
-    tileRing: "ring-violet-100",
-    iconColor: "text-violet-600",
-  },
-  {
-    name: "Email",
-    href: "/email",
-    icon: Mail,
-    desc: "Shared team inbox",
-    tileBg: "bg-rose-50",
-    tileRing: "ring-rose-100",
-    iconColor: "text-rose-600",
-  },
-  {
-    name: "WhatsApp",
-    href: "/whatsapp",
-    icon: MessageCircle,
-    desc: "Two-way, free on every plan",
-    tileBg: "bg-emerald-50",
-    tileRing: "ring-emerald-100",
-    iconColor: "text-emerald-600",
-  },
-  {
-    name: "Help Center",
-    href: "/help-center",
-    icon: HelpCircle,
-    desc: "SEO-friendly knowledge base",
-    tileBg: "bg-teal-50",
-    tileRing: "ring-teal-100",
-    iconColor: "text-teal-600",
-  },
-  {
-    name: "Automation",
-    href: "/automation",
-    icon: Zap,
-    desc: "Auto Reply + AI Chatbot from $9.99",
-    tileBg: "bg-amber-50",
-    tileRing: "ring-amber-100",
-    iconColor: "text-amber-600",
-  },
-  {
-    name: "Integrations",
-    href: "/integrations",
-    icon: Puzzle,
-    desc: "Shopify, Slack, HubSpot + 30 more",
-    tileBg: "bg-purple-50",
-    tileRing: "ring-purple-100",
-    iconColor: "text-purple-600",
+    heading: "Platform",
+    items: [
+      { name: "Analytics", href: "/products/analytics", icon: BarChart3, desc: "Dashboards & insights", tileBg: "bg-blue-50", tileRing: "ring-blue-100", iconColor: "text-blue-600" },
+      { name: "Automation", href: "/automation", icon: Zap, desc: "Auto Reply from $9.99", tileBg: "bg-amber-50", tileRing: "ring-amber-100", iconColor: "text-amber-600" },
+      { name: "Integrations", href: "/integrations", icon: Puzzle, desc: "Shopify, Slack, HubSpot +30", tileBg: "bg-purple-50", tileRing: "ring-purple-100", iconColor: "text-purple-600" },
+      { name: "Help Center", href: "/help-center", icon: HelpCircle, desc: "SEO-friendly knowledge base", tileBg: "bg-teal-50", tileRing: "ring-teal-100", iconColor: "text-teal-600" },
+    ],
   },
 ]
+
+// Flattened list for the mobile drawer.
+const productLinks = productGroups.flatMap((g) => g.items)
 
 const solutionLinks = [
   {
@@ -282,7 +233,7 @@ export function Header() {
             {/* Always rendered (toggled with CSS) so the menu links are in the
                 prerendered HTML and crawlable by search engines. */}
             <div
-                className={`fixed top-[78px] left-1/2 -translate-x-1/2 w-[640px] rounded-2xl border border-slate-200 bg-white shadow-[0_30px_60px_-30px_rgba(15,42,74,0.35)] p-4 overflow-hidden ${activeDropdown === "product" ? "" : "hidden"}`}
+                className={`fixed top-[78px] left-1/2 -translate-x-1/2 w-[940px] max-w-[calc(100vw-2rem)] rounded-2xl border border-slate-200 bg-white shadow-[0_30px_60px_-30px_rgba(15,42,74,0.35)] p-5 overflow-hidden ${activeDropdown === "product" ? "" : "hidden"}`}
                 onMouseEnter={() => openDropdown("product")}
                 onMouseLeave={scheduleClose}
               >
@@ -297,7 +248,7 @@ export function Header() {
                 />
 
                 {/* Section eyebrow */}
-                <div className="flex items-center justify-between px-3 pt-1 pb-3">
+                <div className="flex items-center justify-between px-2 pt-1 pb-3">
                   <div className="inline-flex items-center gap-2">
                     <span className="text-[10px] font-mono text-slate-400">/ 01</span>
                     <span className="h-px w-6 bg-slate-300" />
@@ -305,41 +256,47 @@ export function Header() {
                       Product
                     </span>
                   </div>
-                  <span className="text-[10px] text-slate-400">10 in the family</span>
+                  <span className="text-[10px] text-slate-400">The whole platform</span>
                 </div>
 
-                {/* Grid */}
-                <div className="grid grid-cols-2 gap-1">
-                  {productLinks.map((item) => (
-                    <Link
-                      key={item.name}
-                      to={item.href}
-                      className="group relative flex items-start gap-3.5 rounded-xl p-3.5 hover:bg-slate-50 transition-all"
-                    >
-                      <div
-                        className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-xl ${item.tileBg} ring-1 ${item.tileRing} group-hover:scale-105 transition-transform duration-300`}
-                      >
-                        <item.icon className={`h-5 w-5 ${item.iconColor}`} strokeWidth={2.25} />
+                {/* Grouped columns */}
+                <div className="grid grid-cols-4 gap-x-3">
+                  {productGroups.map((group) => (
+                    <div key={group.heading} className="min-w-0">
+                      <p className="px-2 mb-1.5 text-[10px] font-semibold uppercase tracking-[0.15em] text-slate-400">
+                        {group.heading}
+                      </p>
+                      <div className="space-y-0.5">
+                        {group.items.map((item) => (
+                          <Link
+                            key={item.name}
+                            to={item.href}
+                            className="group flex items-start gap-2.5 rounded-lg p-2 hover:bg-slate-50 transition-colors"
+                          >
+                            <div
+                              className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-lg ${item.tileBg} ring-1 ${item.tileRing} group-hover:scale-105 transition-transform duration-300`}
+                            >
+                              <item.icon className={`h-4 w-4 ${item.iconColor}`} strokeWidth={2.25} />
+                            </div>
+                            <div className="min-w-0">
+                              <div className="flex items-center gap-1.5">
+                                <p className="text-[14px] font-semibold text-[#0F2A4A] group-hover:text-[#1D4ED8] transition-colors leading-tight">
+                                  {item.name}
+                                </p>
+                                {item.badge && (
+                                  <span className="inline-flex items-center rounded-full bg-blue-50 border border-blue-200 px-1.5 py-0.5 text-[9px] font-semibold uppercase tracking-wider text-blue-700">
+                                    {item.badge}
+                                  </span>
+                                )}
+                              </div>
+                              <p className="text-[12px] text-slate-500 leading-snug mt-0.5">
+                                {item.desc}
+                              </p>
+                            </div>
+                          </Link>
+                        ))}
                       </div>
-                      <div className="flex-1 min-w-0">
-                        <div className="flex items-center gap-1.5">
-                          <p className="text-[14px] font-semibold text-[#0F2A4A] group-hover:text-[#1D4ED8] transition-colors">
-                            {item.name}
-                          </p>
-                          {item.badge && (
-                            <span className="inline-flex items-center rounded-full bg-blue-50 border border-blue-200 px-1.5 py-0.5 text-[9px] font-semibold uppercase tracking-wider text-blue-700">
-                              {item.badge}
-                            </span>
-                          )}
-                        </div>
-                        <p className="text-[12px] text-slate-500 leading-snug mt-0.5">
-                          {item.desc}
-                        </p>
-                      </div>
-                      <ChevronDown
-                        className="h-3.5 w-3.5 text-slate-300 -rotate-90 opacity-0 group-hover:opacity-100 group-hover:text-[#3B82F6] transition-all shrink-0 mt-1"
-                      />
-                    </Link>
+                    </div>
                   ))}
                 </div>
 

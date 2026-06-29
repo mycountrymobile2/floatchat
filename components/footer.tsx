@@ -10,7 +10,11 @@ import { ArrowRight, ShieldCheck, Lock, Globe2 } from "lucide-react"
 const footerLinks = {
   Platform: [
     { name: "AI Agent", href: "/ai-agent" },
+    { name: "Agentic AI", href: "/agentic-ai" },
     { name: "Inbox", href: "/inbox" },
+    { name: "Omnichannel Inbox", href: "/products/omnichannel-inbox" },
+    { name: "Agent Copilot", href: "/products/agent-copilot" },
+    { name: "Analytics", href: "/products/analytics" },
     { name: "Automation", href: "/automation" },
     { name: "Help Center", href: "/help-center" },
     { name: "Integrations", href: "/integrations" },

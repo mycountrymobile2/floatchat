@@ -24,6 +24,20 @@ const InboxPage = lazy(() => import("@/app/inbox/page"))
 const AutomationPage = lazy(() => import("@/app/automation/page"))
 const IntegrationsPage = lazy(() => import("@/app/integrations/page"))
 
+// Lazy loaded — AI agents
+const AiAgentsHubPage = lazy(() => import("@/app/ai-agents/page"))
+const AiAgentCustomerServicePage = lazy(() => import("@/app/ai-agents/customer-service/page"))
+const AiAgentSalesPage = lazy(() => import("@/app/ai-agents/sales/page"))
+const AiAgentBookingPage = lazy(() => import("@/app/ai-agents/booking/page"))
+const AiAgentLeadQualificationPage = lazy(() => import("@/app/ai-agents/lead-qualification/page"))
+const AiAgentBuilderPage = lazy(() => import("@/app/ai-agents/agent-builder/page"))
+
+// Lazy loaded — agentic AI + product pages
+const AgenticAiPage = lazy(() => import("@/app/agentic-ai/page"))
+const AgentCopilotPage = lazy(() => import("@/app/products/agent-copilot/page"))
+const AnalyticsPage = lazy(() => import("@/app/products/analytics/page"))
+const OmnichannelInboxPage = lazy(() => import("@/app/products/omnichannel-inbox/page"))
+
 // Lazy loaded — solutions
 const EcommercePage = lazy(() => import("@/app/solutions/ecommerce/page"))
 const SaasPage = lazy(() => import("@/app/solutions/saas/page"))
@@ -156,6 +170,20 @@ export default function App() {
           <Route path="/inbox" element={<InboxPage />} />
           <Route path="/automation" element={<AutomationPage />} />
           <Route path="/integrations" element={<IntegrationsPage />} />
+
+          {/* AI agents */}
+          <Route path="/ai-agents" element={<AiAgentsHubPage />} />
+          <Route path="/ai-agents/customer-service" element={<AiAgentCustomerServicePage />} />
+          <Route path="/ai-agents/sales" element={<AiAgentSalesPage />} />
+          <Route path="/ai-agents/booking" element={<AiAgentBookingPage />} />
+          <Route path="/ai-agents/lead-qualification" element={<AiAgentLeadQualificationPage />} />
+          <Route path="/ai-agents/agent-builder" element={<AiAgentBuilderPage />} />
+
+          {/* Agentic AI + products */}
+          <Route path="/agentic-ai" element={<AgenticAiPage />} />
+          <Route path="/products/agent-copilot" element={<AgentCopilotPage />} />
+          <Route path="/products/analytics" element={<AnalyticsPage />} />
+          <Route path="/products/omnichannel-inbox" element={<OmnichannelInboxPage />} />
 
           {/* Solutions */}
           <Route path="/solutions/ecommerce" element={<EcommercePage />} />

@@ -17,6 +17,8 @@ import {
   MessageSquare,
   Phone,
   MessageCircle,
+  RefreshCw,
+  Bot,
 } from "lucide-react"
 import {
   SiShopify,
@@ -195,7 +197,7 @@ function LogoWallMockup() {
           <Plug className="h-2.5 w-2.5 text-white" />
         </div>
         <span className="text-[11px] font-medium text-[#0F2A4A]">
-          30+ integrations
+          200+ integrations
         </span>
       </motion.div>
 
@@ -585,24 +587,29 @@ function CategoryTabs() {
 
 const faqs: FAQItem[] = [
   {
-    question: "Is the Zapier integration free?",
+    question: "How many integrations are there?",
     answer:
-      "The FloatChat side is free on Starter and above. Zapier's own pricing applies — they have a free tier that covers basic automations.",
+      "200+ prebuilt connectors across CRM, helpdesk, e-commerce, and analytics — plus a full REST API and webhooks to build anything that isn't already on the list.",
   },
   {
-    question: "Can I use my existing Twilio account?",
+    question: "Do I need a developer?",
     answer:
-      "Yes. On Starter and above you can connect your own Twilio credentials for voice and SMS, giving you full control over numbers and rates.",
+      "No for the prebuilt connectors — they connect with OAuth in a click, no engineering required. The REST API and webhooks are there if you want to build something custom.",
   },
   {
-    question: "Is there a public API?",
+    question: "Does data sync both ways?",
     answer:
-      "Yes. REST API + webhooks are available from Lite ($9.99/month). Full documentation is available in your dashboard after signup.",
+      "Yes. Two-way sync keeps context current in both directions, so your agentic AI and your human team always see the latest orders, tickets, and customer data.",
+  },
+  {
+    question: "Can the agent take actions in my tools?",
+    answer:
+      "Yes. Through connected integrations and the API, the agent can look up, update, and complete multi-step tasks across your systems in one flow — not just read data.",
   },
   {
     question: "Can FloatChat integrate with my custom CRM?",
     answer:
-      "Yes, via webhooks + API on Starter+. For a native integration, contact our partnerships team.",
+      "Yes, via webhooks and the REST API. For a native connector, contact our partnerships team and we'll work with you.",
   },
   {
     question: "Does FloatChat support SAML SSO?",
@@ -636,12 +643,12 @@ const nativeChannels: {
 export default function IntegrationsPage() {
   useEffect(() => {
     document.title =
-      "Integrations — Connect FloatChat to Your Stack | FloatChat"
+      "200+ Integrations and Open API for Agentic AI | FloatChat"
     const desc = document.querySelector('meta[name="description"]')
     if (desc)
       desc.setAttribute(
         "content",
-        "FloatChat connects to Shopify, HubSpot, Salesforce, Slack, Zapier, and 50+ tools. Native channels: chat, email, WhatsApp, voice, SMS, Instagram.",
+        "Connect your CRM, helpdesk, and commerce tools with 200+ prebuilt integrations plus a REST API and webhooks so your agentic AI acts on real data.",
       )
   }, [])
 
@@ -698,7 +705,7 @@ export default function IntegrationsPage() {
                   className="inline-flex items-center gap-2 rounded-full border border-[#1B6BFF]/30 bg-[#1B6BFF]/5 px-4 py-1.5 text-xs font-medium text-[#1B6BFF]"
                 >
                   <Plug className="h-3.5 w-3.5" />
-                  Integrations · 30+ apps · OAuth in one click
+                  Integrations · 200+ apps · REST API + webhooks
                 </motion.div>
 
                 <motion.h1
@@ -707,9 +714,9 @@ export default function IntegrationsPage() {
                   transition={{ duration: 0.6, delay: 0.1 }}
                   className="mt-5 font-medium tracking-tight text-[#0F2A4A] text-4xl sm:text-5xl lg:text-[56px] leading-[1.05]"
                 >
-                  Connect FloatChat to{" "}
+                  200+ integrations and an open API for{" "}
                   <span className="bg-gradient-to-r from-[#60A5FA] via-[#3B82F6] to-[#1D4ED8] bg-clip-text text-transparent">
-                    your stack.
+                    agentic AI.
                   </span>
                 </motion.h1>
 
@@ -719,8 +726,9 @@ export default function IntegrationsPage() {
                   transition={{ duration: 0.5, delay: 0.2 }}
                   className="mt-5 text-[15px] lg:text-base text-slate-500 max-w-xl leading-relaxed"
                 >
-                  Shopify, HubSpot, Salesforce, Slack, Zapier and more — 1-click
-                  OAuth on Starter. Plus 10 native channels and a full REST API.
+                  Connect your CRM, helpdesk, and commerce tools so your agentic
+                  AI acts on real data — no custom code. Your stack, connected in
+                  minutes.
                 </motion.p>
 
                 <motion.div
@@ -730,10 +738,10 @@ export default function IntegrationsPage() {
                   className="mt-5 flex flex-wrap items-center gap-x-5 gap-y-2 text-sm text-slate-500"
                 >
                   {[
-                    "Shopify on Free",
-                    "OAuth 2.0",
-                    "REST API + Webhooks",
-                    "SAML SSO on Pro",
+                    "200+ prebuilt connectors",
+                    "REST API + webhooks",
+                    "Two-way sync",
+                    "No engineering required",
                   ].map((b) => (
                     <span key={b} className="flex items-center gap-1.5">
                       <Check className="h-3.5 w-3.5 text-[#1B6BFF]" />
@@ -768,10 +776,10 @@ export default function IntegrationsPage() {
                     </Link>
                   </div>
                   <Link
-                    to="/pricing"
+                    to="/demo"
                     className="inline-flex items-center justify-center h-12 px-7 rounded-full text-[15px] font-medium border border-slate-300 bg-white text-[#0F2A4A] hover:bg-slate-50 transition-colors"
                   >
-                    See all plans
+                    Get a Demo
                   </Link>
                 </motion.div>
 
@@ -781,8 +789,7 @@ export default function IntegrationsPage() {
                   transition={{ duration: 0.5, delay: 0.4 }}
                   className="mt-4 text-sm text-slate-500"
                 >
-                  API access from $9.99. App integrations unlock on Starter
-                  ($19.99).
+                  Your stack, connected in minutes. API access from $9.99.
                 </motion.p>
               </div>
 
@@ -794,6 +801,114 @@ export default function IntegrationsPage() {
               >
                 <LogoWallMockup />
               </motion.div>
+            </div>
+          </div>
+        </section>
+
+        {/* ───── RESULTS STRIP ───── */}
+        <section className="relative bg-white py-10 lg:py-14 border-y border-slate-200/70">
+          <div className="mx-auto max-w-7xl px-6 lg:px-8">
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-x-6 gap-y-8">
+              {[
+                { Icon: Plug, value: "200+", label: "prebuilt connectors" },
+                { Icon: Webhook, value: "REST API", label: "and webhooks" },
+                { Icon: RefreshCw, value: "Two-way", label: "sync, always current" },
+                { Icon: Sparkles, value: "No-code", label: "no engineering required" },
+              ].map((s, i) => (
+                <BlurFade key={s.label} delay={i * 0.08}>
+                  <div className="flex items-start gap-3">
+                    <div className="h-10 w-10 rounded-xl bg-[#EAF2FF] flex items-center justify-center shrink-0">
+                      <s.Icon className="h-5 w-5 text-[#1D4ED8]" />
+                    </div>
+                    <div>
+                      <p className="text-2xl lg:text-[26px] font-semibold text-[#0F2A4A] leading-none">
+                        {s.value}
+                      </p>
+                      <p className="mt-1.5 text-[12.5px] text-slate-500 leading-snug">
+                        {s.label}
+                      </p>
+                    </div>
+                  </div>
+                </BlurFade>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* ───── THE PROBLEM ───── */}
+        <section className="relative py-20 lg:py-24 bg-white">
+          <div className="mx-auto max-w-4xl px-6 lg:px-8 text-center">
+            <BlurFade>
+              <div className="flex justify-center">
+                <SectionEyebrow num="01" label="The problem" />
+              </div>
+              <h2 className="text-3xl sm:text-4xl font-medium tracking-tight text-[#0F2A4A] leading-[1.1]">
+                An AI agent is only as smart as the systems it can reach.
+              </h2>
+              <p className="mt-5 text-base lg:text-lg text-slate-500 leading-relaxed">
+                A scripted chatbot can read a script, but if your agent cannot see
+                your orders, tickets, and customers, it cannot truly act.
+                Integrations give your agentic AI the data and the reach to do
+                real work — look things up, make changes, and complete tasks
+                across the tools you already run.
+              </p>
+            </BlurFade>
+          </div>
+        </section>
+
+        {/* ───── WHAT YOU GET ───── */}
+        <section className="relative py-20 lg:py-28 bg-gradient-to-b from-[#EEF2FF] via-white to-[#F5F7FF] overflow-hidden">
+          <div className="mx-auto max-w-7xl px-6 lg:px-8">
+            <div className="max-w-3xl mb-12">
+              <BlurFade>
+                <SectionEyebrow num="02" label="What you get" />
+                <h2 className="text-3xl sm:text-4xl lg:text-5xl font-medium tracking-tight text-[#0F2A4A] leading-[1.05]">
+                  Data, reach, and actions in one connection.
+                </h2>
+              </BlurFade>
+            </div>
+
+            <div className="grid gap-6 md:grid-cols-2">
+              {[
+                {
+                  Icon: Plug,
+                  title: "Prebuilt connectors",
+                  body: "200+ integrations for CRM, helpdesk, e-commerce, and analytics tools — connected with OAuth in a click, no engineering required.",
+                },
+                {
+                  Icon: Code2,
+                  title: "Open API and webhooks",
+                  body: "Build anything custom with a full REST API and webhooks, and let the agent trigger actions across your systems in real time.",
+                },
+                {
+                  Icon: RefreshCw,
+                  title: "Two-way sync",
+                  body: "Keep context current in both directions, so the agent and your human team always see the latest orders, tickets, and customer data.",
+                },
+                {
+                  Icon: Bot,
+                  title: "Agentic actions",
+                  body: "Let the agent look up, update, and act across connected tools in one flow — turning a question into a completed task, not a handoff.",
+                },
+              ].map((f, i) => (
+                <BlurFade key={f.title} delay={0.05 + i * 0.08} className="h-full">
+                  <div className="group h-full flex flex-col rounded-3xl border border-slate-200/80 bg-white p-6 lg:p-7 hover:border-slate-300 hover:shadow-[0_30px_60px_-30px_rgba(15,42,74,0.25)] transition-all duration-300">
+                    <div className="flex items-start gap-4">
+                      <div className="h-12 w-12 shrink-0 rounded-xl bg-gradient-to-br from-[#60A5FA] to-[#1D4ED8] flex items-center justify-center shadow-md shadow-[#3B82F6]/30">
+                        <f.Icon className="h-5 w-5 text-white" strokeWidth={2.25} />
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <h3 className="text-lg lg:text-xl font-semibold text-[#0F2A4A] leading-tight">
+                          {f.title}
+                        </h3>
+                        <p className="mt-2 text-[14px] text-slate-500 leading-relaxed">
+                          {f.body}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </BlurFade>
+              ))}
             </div>
           </div>
         </section>
@@ -816,7 +931,7 @@ export default function IntegrationsPage() {
           <div className="mx-auto max-w-7xl px-6 lg:px-8">
             <div className="grid grid-cols-12 gap-6 items-end mb-10">
               <BlurFade className="col-span-12 lg:col-span-8">
-                <SectionEyebrow num="01" label="By category" />
+                <SectionEyebrow num="03" label="By category" />
                 <h2 className="text-3xl sm:text-4xl lg:text-5xl font-medium tracking-tight text-[#0F2A4A] leading-[1.05]">
                   App integrations.
                 </h2>
@@ -840,7 +955,7 @@ export default function IntegrationsPage() {
           <div className="mx-auto max-w-7xl px-6 lg:px-8">
             <div className="grid grid-cols-12 gap-6 items-end mb-12">
               <BlurFade className="col-span-12 lg:col-span-8">
-                <SectionEyebrow num="02" label="No connector needed" />
+                <SectionEyebrow num="04" label="No connector needed" />
                 <h2 className="text-3xl sm:text-4xl lg:text-5xl font-medium tracking-tight text-[#0F2A4A] leading-[1.05]">
                   10 channels{" "}
                   <span className="bg-gradient-to-r from-[#60A5FA] via-[#3B82F6] to-[#1D4ED8] bg-clip-text text-transparent">
@@ -901,7 +1016,7 @@ export default function IntegrationsPage() {
           <div className="mx-auto max-w-7xl px-6 lg:px-8">
             <div className="grid grid-cols-12 gap-8 lg:gap-12 items-center">
               <BlurFade className="col-span-12 lg:col-span-5">
-                <SectionEyebrow num="03" label="Build your own" />
+                <SectionEyebrow num="05" label="Build your own" />
                 <h2 className="text-3xl sm:text-4xl lg:text-5xl font-medium tracking-tight text-[#0F2A4A] leading-[1.05]">
                   Build your own integration.
                 </h2>
@@ -1017,14 +1132,63 @@ export default function IntegrationsPage() {
           </div>
         </section>
 
+        {/* ───── WHY IT WORKS / WHY FLOATCHAT ───── */}
+        <section className="relative py-20 lg:py-28 bg-white">
+          <div className="mx-auto max-w-7xl px-6 lg:px-8">
+            <div className="grid gap-6 lg:grid-cols-2">
+              <BlurFade className="h-full">
+                <div className="h-full rounded-3xl border border-slate-200 bg-gradient-to-br from-[#F5F7FF] to-white p-8 lg:p-10">
+                  <SectionEyebrow num="06" label="Why it works" />
+                  <p className="text-lg lg:text-xl text-[#0F2A4A] leading-relaxed">
+                    Your agentic AI stops guessing and starts acting on live data —
+                    which is exactly what turns a chatbot into a teammate. When the
+                    agent can see the order, the ticket, and the customer, it can
+                    resolve the request instead of routing it.
+                  </p>
+                </div>
+              </BlurFade>
+              <BlurFade delay={0.1} className="h-full">
+                <div className="relative h-full overflow-hidden rounded-3xl bg-gradient-to-br from-[#0F2A4A] to-[#1D4ED8] p-8 lg:p-10 text-white shadow-[0_30px_60px_-30px_rgba(29,78,216,0.55)]">
+                  <div className="absolute -top-16 -right-16 w-44 h-44 rounded-full bg-white/10 blur-3xl" aria-hidden="true" />
+                  <div className="relative">
+                    <div className="inline-flex items-center gap-2 mb-5">
+                      <span className="text-[11px] font-mono text-white/50">/ 07</span>
+                      <span className="h-px w-8 bg-white/30" />
+                      <span className="text-[11px] uppercase tracking-[0.2em] font-medium text-[#93C5FD]">
+                        Why FloatChat
+                      </span>
+                    </div>
+                    <p className="text-lg lg:text-xl leading-relaxed text-white/90">
+                      Integrations power every part of the platform — from the AI
+                      agent to broadcasting to analytics — so one connection serves
+                      your whole customer experience, not a single channel.
+                    </p>
+                    <div className="mt-6 flex flex-wrap gap-2">
+                      {["Agentic AI", "Agent Builder", "Open API"].map((t) => (
+                        <span
+                          key={t}
+                          className="inline-flex items-center gap-1.5 rounded-full bg-white/10 ring-1 ring-white/15 px-3 py-1 text-[12px] font-medium text-white/90"
+                        >
+                          <Check className="h-3 w-3 text-[#93C5FD]" strokeWidth={3} />
+                          {t}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </BlurFade>
+            </div>
+          </div>
+        </section>
+
         {/* ───── INLINE CTA ───── */}
         <InlineCTA
-          headline="Connect FloatChat to your stack"
-          body="Shopify, Stripe, HubSpot, Slack, Salesforce, and 30+ more."
+          headline="Connect your stack and let the agent act"
+          body="200+ prebuilt connectors plus a REST API and webhooks — so your agentic AI works on real data."
           primaryLabel="Start Free"
           primaryHref="/signup?plan=free"
-          secondaryLabel="See pricing"
-          secondaryHref="/pricing"
+          secondaryLabel="Get a Demo"
+          secondaryHref="/demo"
         />
 
         {/* ───── TESTIMONIALS ───── */}
@@ -1039,7 +1203,7 @@ export default function IntegrationsPage() {
             <FAQSection
               faqs={faqs}
               title="Common questions"
-              description="Zapier, Twilio, custom CRMs, SSO — straight answers."
+              description="Connectors, the API, two-way sync, agentic actions — straight answers."
               footer={
                 <p className="text-sm text-muted-foreground">
                   More questions?{" "}
@@ -1122,7 +1286,7 @@ export default function IntegrationsPage() {
                   <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-500" />
                 </span>
                 <span className="text-[11px] font-medium text-[#0F2A4A]">
-                  30+ integrations · 10 native channels
+                  200+ integrations · REST API + webhooks
                 </span>
                 <span className="h-3 w-px bg-slate-200" />
                 <span className="text-[11px] text-slate-500">OAuth in seconds</span>
@@ -1149,9 +1313,9 @@ export default function IntegrationsPage() {
                 transition={{ duration: 0.65, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
                 className="relative text-4xl sm:text-5xl lg:text-6xl font-semibold tracking-tight text-[#0F2A4A] text-balance mb-6 leading-[1.05]"
               >
-                Ready to connect{" "}
+                Connect your stack and{" "}
                 <span className="bg-gradient-to-r from-[#06B6D4] via-[#3B82F6] via-50% to-[#8B5CF6] bg-clip-text text-transparent">
-                  your stack?
+                  let the agent act.
                 </span>
               </motion.h2>
 
@@ -1162,7 +1326,8 @@ export default function IntegrationsPage() {
                 transition={{ duration: 0.55, delay: 0.2 }}
                 className="relative text-base sm:text-lg text-slate-500 mb-10 max-w-xl mx-auto leading-relaxed"
               >
-                Start free. API access from $9.99.
+                200+ prebuilt connectors plus a REST API and webhooks. Start free —
+                API access from $9.99.
               </motion.p>
 
               <motion.div
@@ -1197,10 +1362,10 @@ export default function IntegrationsPage() {
               className="mt-8 mx-auto max-w-3xl rounded-2xl border border-slate-200 bg-white/80 backdrop-blur-sm px-6 py-4 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-[12px] font-medium text-slate-600"
             >
               {[
-                "30+ app integrations",
-                "10 native channels",
-                "REST API on Lite",
-                "SAML SSO on Pro",
+                "200+ integrations",
+                "REST API + webhooks",
+                "Two-way sync",
+                "No engineering required",
               ].map((t) => (
                 <span key={t} className="flex items-center gap-1.5">
                   <span className="w-1.5 h-1.5 rounded-full bg-[#3B82F6]" />

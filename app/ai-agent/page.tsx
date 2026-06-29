@@ -26,6 +26,7 @@ import { Testimonials } from "@/components/testimonials"
 import { FAQSection, type FAQItem } from "@/components/ui/faq-section-shadcnui"
 import { InlineCTA } from "@/components/inline-cta"
 import { BlurFade } from "@/components/ui/blur-fade"
+import { AGENTS } from "@/components/ai-agents/agents-data"
 
 /* ─────────────────────────────────────────────────────────────
    Right-side hero mockup: live Captain in action
@@ -1185,6 +1186,81 @@ export default function AiAgentPage() {
           secondaryLabel="See pricing"
           secondaryHref="/pricing"
         />
+
+        {/* ───── SPECIALIZED AI AGENTS ───── */}
+        <section className="relative py-20 lg:py-28 bg-gradient-to-b from-white to-[#F5F7FF]">
+          <div className="mx-auto max-w-7xl px-6 lg:px-8">
+            <div className="max-w-3xl mb-12">
+              <BlurFade>
+                <div className="inline-flex items-center gap-2 mb-5">
+                  <span className="text-[11px] font-mono text-slate-400">/ agents</span>
+                  <span className="h-px w-8 bg-slate-300" />
+                  <span className="text-[11px] uppercase tracking-[0.2em] font-medium text-[#3B82F6]">
+                    Specialized agents
+                  </span>
+                </div>
+                <h2 className="text-3xl sm:text-4xl lg:text-5xl font-medium tracking-tight text-[#0F2A4A] leading-[1.05]">
+                  One agent for every job.
+                </h2>
+                <p className="mt-4 text-base text-slate-500 leading-relaxed">
+                  Captain is the foundation. Deploy purpose-built agents for
+                  support, sales, booking, and lead qualification — or build your
+                  own, no code. They all share one inbox, one customer record, and
+                  the same guardrails.
+                </p>
+              </BlurFade>
+            </div>
+
+            <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+              {AGENTS.map((a, i) => (
+                <BlurFade key={a.slug} delay={0.05 + i * 0.06} className="h-full">
+                  <Link
+                    to={a.path}
+                    className="group h-full flex flex-col rounded-3xl border border-slate-200/80 bg-white p-6 hover:border-slate-300 hover:shadow-[0_30px_60px_-30px_rgba(15,42,74,0.25)] transition-all duration-300"
+                  >
+                    <div
+                      className={`h-11 w-11 rounded-xl bg-gradient-to-br ${a.accent} flex items-center justify-center shadow-md`}
+                    >
+                      <a.hubIcon className="h-5 w-5 text-white" strokeWidth={2.25} />
+                    </div>
+                    <h3 className="mt-4 text-lg font-semibold text-[#0F2A4A] group-hover:text-[#1D4ED8] transition-colors">
+                      {a.navLabel}
+                    </h3>
+                    <p className="mt-1.5 text-[13.5px] text-slate-500 leading-relaxed flex-1">
+                      {a.cardSummary}
+                    </p>
+                    <span className="mt-4 inline-flex items-center gap-1.5 text-[13px] font-medium text-[#1D4ED8]">
+                      Learn more
+                      <ArrowRight className="h-4 w-4 group-hover:translate-x-0.5 transition-transform" />
+                    </span>
+                  </Link>
+                </BlurFade>
+              ))}
+
+              <BlurFade delay={0.05 + AGENTS.length * 0.06} className="h-full">
+                <Link
+                  to="/ai-agents"
+                  className="group relative h-full flex flex-col justify-between overflow-hidden rounded-3xl bg-gradient-to-br from-[#0F2A4A] to-[#1D4ED8] p-6 text-white shadow-[0_30px_60px_-30px_rgba(29,78,216,0.55)]"
+                >
+                  <div className="absolute -top-16 -right-16 w-44 h-44 rounded-full bg-white/10 blur-3xl" aria-hidden="true" />
+                  <div className="relative">
+                    <div className="h-11 w-11 rounded-xl bg-white/15 flex items-center justify-center">
+                      <Sparkles className="h-5 w-5 text-white" strokeWidth={2.25} />
+                    </div>
+                    <h3 className="mt-4 text-lg font-semibold">See all AI agents</h3>
+                    <p className="mt-1.5 text-[13.5px] text-white/80 leading-relaxed">
+                      Compare every agent and find the right fit for your workflow.
+                    </p>
+                  </div>
+                  <span className="relative mt-4 inline-flex items-center gap-1.5 text-[13px] font-medium text-white">
+                    Explore the family
+                    <ArrowUpRight className="h-4 w-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+                  </span>
+                </Link>
+              </BlurFade>
+            </div>
+          </div>
+        </section>
 
         {/* ───── TESTIMONIALS — same as homepage ───── */}
         <Testimonials />
