@@ -1,0 +1,10 @@
+User-agent: *
+Allow: /
+
+# Block auth and dashboard pages from indexing
+Disallow: /dashboard
+Disallow: /signup
+Disallow: /login
+Disallow: /forgot-password
+
+Sitemap: https://www.floatchat.com/sitemap.xml

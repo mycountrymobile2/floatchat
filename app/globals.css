@@ -1,0 +1,238 @@
+@import 'tailwindcss';
+@import 'tw-animate-css';
+
+/* Self-hosted Inter — no render-blocking Google Fonts request.
+   `optional` guarantees zero font-swap layout shift: the preloaded woff2 is
+   either ready before first paint (Inter renders) or skipped for that load
+   (fallback renders) — it is never swapped in mid-page. */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400 700;
+  font-display: optional;
+  src: url('/fonts/inter.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+
+/*
+  Color palette reference:
+  #006AFF  Dodger Blue       – primary brand (light)
+  #00B2FF  Deep Sky Blue     – primary hover / gradient end
+  #38BDF8  Deep Sky Blue     – primary brand (dark mode)
+  #60A5FA  Cornflower Blue   – primary hover (dark)
+  #7DD3FC  Light Sky Blue    – accent light
+  #93C5FD  Light Sky Blue    – accent lighter
+  #BAE6FD  Pale Turquoise    – accent palest
+  #BFDBFE  Powder Blue       – secondary tint
+  #6366F1  Medium Slate Blue – indigo accent
+  #7360F2  Medium Slate Blue – indigo mid
+  #8B5CF6  Medium Slate Blue – purple accent
+  #059669  Teal              – success
+  #25D366  Medium Sea Green  – WhatsApp green
+  #34C759  Medium Sea Green  – iOS success green
+  #0F172A  Black             – slate-950
+  #1E293B  Dark Slate Gray   – slate-800
+  #334155  Dark Slate Gray   – slate-700
+  #475569  Dark Slate Gray   – slate-600
+  #60646C  Dim Gray
+  #64748B  Slate Gray        – slate-500
+  #94A3B8  Dark Gray         – slate-400
+  #E2E8F0  Lavender          – slate-200
+  #F0F7FF  Alice Blue        – blue-50
+  #F1F5F9  White Smoke       – slate-100
+  #F1F5FB  Alice Blue        – blue-50 variant
+  #F8FAFC  Ghost White       – slate-50
+  #FAFBFC  Ghost White       – off-white
+  #FAFCFF  Ghost White       – cool white
+*/
+
+/* ─── Light mode ──────────────────────────────────────────── */
+:root {
+  --background: #FAFCFF;
+  --foreground: #0F172A;
+  --card: #FFFFFF;
+  --card-foreground: #0F172A;
+  --popover: #FFFFFF;
+  --popover-foreground: #0F172A;
+  --primary: #006AFF;
+  --primary-foreground: #FAFCFF;
+  --secondary: #F0F7FF;
+  --secondary-foreground: #1E293B;
+  --muted: #F1F5F9;
+  --muted-foreground: #64748B;
+  --accent: #F0F7FF;
+  --accent-foreground: #1E293B;
+  --destructive: #DC2626;
+  --destructive-foreground: #FAFCFF;
+  --border: #E2E8F0;
+  --input: #E2E8F0;
+  --ring: #006AFF;
+  --radius: 0.625rem;
+
+  --chart-1: #006AFF;
+  --chart-2: #00B2FF;
+  --chart-3: #6366F1;
+  --chart-4: #059669;
+  --chart-5: #8B5CF6;
+
+  --sidebar: #F8FAFC;
+  --sidebar-foreground: #0F172A;
+  --sidebar-primary: #006AFF;
+  --sidebar-primary-foreground: #FAFCFF;
+  --sidebar-accent: #F1F5F9;
+  --sidebar-accent-foreground: #1E293B;
+  --sidebar-border: #E2E8F0;
+  --sidebar-ring: #006AFF;
+}
+
+
+@theme inline {
+  --font-sans: 'Inter', system-ui, sans-serif;
+  --font-mono: 'Geist Mono', monospace;
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+}
+
+@layer base {
+  :root {
+    --gradient-color: #006AFF;
+    --sparkles-color: #006AFF;
+  }
+
+  * {
+    @apply border-border outline-ring/50;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  }
+
+  /* Skip-to-main for accessibility */
+  .skip-to-main {
+    @apply sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[9999] focus:px-4 focus:py-2 focus:bg-primary focus:text-primary-foreground focus:rounded-md focus:outline-none;
+  }
+
+  /* Grain texture overlay */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    opacity: 0.025;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+    background-repeat: repeat;
+    background-size: 128px 128px;
+  }
+
+  /* Ensure content sits above grain */
+  #root {
+    position: relative;
+    z-index: 1;
+  }
+}
+
+/* ─── Marquee animation ───────────────────────────────────── */
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+.animate-marquee {
+  animation: marquee 30s linear infinite;
+}
+.animate-marquee:hover {
+  animation-play-state: paused;
+}
+
+/* ─── Float animations for inbox mockup ──────────────────── */
+@keyframes float-slow {
+  0%, 100% { transform: translateY(0px); }
+  50%       { transform: translateY(-10px); }
+}
+@keyframes float-medium {
+  0%, 100% { transform: translateY(0px); }
+  50%       { transform: translateY(-15px); }
+}
+@keyframes float-fast {
+  0%, 100% { transform: translateY(0px); }
+  50%       { transform: translateY(-8px); }
+}
+.animate-float-slow   { animation: float-slow 4s ease-in-out infinite; }
+.animate-float-medium { animation: float-medium 3s ease-in-out infinite 0.5s; }
+.animate-float-fast   { animation: float-fast 2.5s ease-in-out infinite 1s; }
+
+/* ─── Gradient shimmer for pricing badge ─────────────────── */
+@keyframes shimmer {
+  0%   { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+.animate-shimmer {
+  background-size: 200% auto;
+  animation: shimmer 3s linear infinite;
+}
+
+/* ─── Grid background pattern ────────────────────────────── */
+.bg-grid-pattern {
+  background-image:
+    linear-gradient(to right, #006AFF0F 1px, transparent 1px),
+    linear-gradient(to bottom, #006AFF0F 1px, transparent 1px);
+  background-size: 60px 60px;
+}
+
+
+/* ─── Radial fade to hide grid edges ────────────────────── */
+.bg-radial-fade {
+  -webkit-mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 40%, transparent 100%);
+  mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 40%, transparent 100%);
+}
+
+/* ─── Utility: gradient text ─────────────────────────────── */
+.gradient-text {
+  background: linear-gradient(135deg, #006AFF, #00B2FF);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+

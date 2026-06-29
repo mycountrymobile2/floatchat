@@ -1,0 +1,574 @@
+<!doctype html>
+<html lang="en" class="bg-background">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#006AFF" />
+
+    <!-- Iubenda Cookie Solution — consent banner + GDPR/US-state/LGPD/FADP enforcement.
+         Must load inside <head> before any other scripts (cannot be loaded via GTM).
+         Auto-configured for GDPR + 16 US state laws + LGPD + Switzerland + Google Consent Mode v2. -->
+    <link rel="preconnect" href="https://embeds.iubenda.com" crossorigin />
+    <link rel="preconnect" href="https://cdn.iubenda.com" crossorigin />
+
+    <!-- FloatChat theme override for the iubenda banner.
+         iubenda's dashboard can't set fonts and gives limited colour control,
+         so we restyle the banner shell here. !important is required because
+         iubenda ships scoped inline styles inside the banner. -->
+    <style>
+      #iubenda-cs-banner,
+      #iubenda-cs-banner *,
+      .iub-cs-container,
+      .iub-cs-container *,
+      .iubenda-tp-btn,
+      .iubenda-tp-btn * {
+        font-family: 'Inter', system-ui, -apple-system, sans-serif !important;
+        letter-spacing: -0.005em !important;
+      }
+
+      /* Pin banner to bottom-left and constrain width. */
+      #iubenda-cs-banner {
+        left: 16px !important;
+        right: auto !important;
+        bottom: 16px !important;
+        top: auto !important;
+        max-width: 440px !important;
+        width: calc(100vw - 32px) !important;
+        transform: none !important;
+        margin: 0 !important;
+        z-index: 999999 !important;
+      }
+
+      /* The inner card surface — white with brand-blue shadow. */
+      #iubenda-cs-banner .iubenda-cs-container,
+      #iubenda-cs-banner .iub-cs-container,
+      #iubenda-cs-banner > div:first-child,
+      #iubenda-cs-banner .iubenda-cs-content {
+        background: #FFFFFF !important;
+        color: #0F172A !important;
+        border-radius: 14px !important;
+        border: 1px solid #E2E8F0 !important;
+        box-shadow: 0 24px 60px -18px rgba(0, 106, 255, 0.22), 0 2px 8px rgba(15, 23, 42, 0.04) !important;
+        padding: 20px !important;
+      }
+
+      /* Body text — slate-900 on white. */
+      #iubenda-cs-banner .iubenda-cs-rationale,
+      #iubenda-cs-banner p,
+      #iubenda-cs-banner span,
+      #iubenda-cs-banner div {
+        color: #0F172A !important;
+      }
+
+      /* Cookie-policy link picks up brand blue. */
+      #iubenda-cs-banner a,
+      #iubenda-cs-banner .iubenda-cs-cookie-policy-lnk {
+        color: #006AFF !important;
+        text-decoration: underline !important;
+        text-underline-offset: 2px !important;
+      }
+
+      /* Accept + Reject — equal prominence, both FloatChat blue. */
+      #iubenda-cs-banner #iubenda-cs-accept-btn,
+      #iubenda-cs-banner #iubenda-cs-reject-btn,
+      #iubenda-cs-banner button[class*="accept"],
+      #iubenda-cs-banner button[class*="reject"],
+      #iubenda-cs-banner .iubenda-cs-btn-primary {
+        background: #006AFF !important;
+        background-color: #006AFF !important;
+        color: #FFFFFF !important;
+        border: 1px solid #006AFF !important;
+        border-radius: 10px !important;
+        padding: 10px 20px !important;
+        font-weight: 600 !important;
+        font-size: 14px !important;
+        line-height: 1.2 !important;
+        flex: 1 1 0 !important;
+        transition: background-color 150ms ease !important;
+      }
+      #iubenda-cs-banner #iubenda-cs-accept-btn:hover,
+      #iubenda-cs-banner #iubenda-cs-reject-btn:hover,
+      #iubenda-cs-banner button[class*="accept"]:hover,
+      #iubenda-cs-banner button[class*="reject"]:hover {
+        background: #0056D6 !important;
+        background-color: #0056D6 !important;
+        border-color: #0056D6 !important;
+      }
+
+      /* "Manage preferences" / customise — quiet secondary button. */
+      #iubenda-cs-banner #iubenda-cs-customize-btn,
+      #iubenda-cs-banner button[class*="customize"] {
+        background: #F1F5F9 !important;
+        background-color: #F1F5F9 !important;
+        color: #0F172A !important;
+        border: 1px solid #E2E8F0 !important;
+        border-radius: 10px !important;
+        font-weight: 600 !important;
+        font-size: 14px !important;
+      }
+      #iubenda-cs-banner #iubenda-cs-customize-btn:hover,
+      #iubenda-cs-banner button[class*="customize"]:hover {
+        background: #E2E8F0 !important;
+        background-color: #E2E8F0 !important;
+      }
+
+      /* Floating "Privacy Choices" reopen pill — also on the left. */
+      .iubenda-tp-btn[data-tp-float],
+      #iubenda-cs-floating-preferences-btn,
+      .iubenda-cs-floating-preferences-btn {
+        left: 16px !important;
+        right: auto !important;
+        transform: none !important;
+      }
+
+      /* Hide the "Created with iubenda" mark. */
+      .iubenda-cs-brand,
+      .iubenda-cs-brand-badge,
+      .iubenda-cs-brand-badge-text,
+      [class*="iub-cs-brand"],
+      [class*="iubenda-brand"] {
+        display: none !important;
+      }
+
+      /* Hide the floating "Privacy Choices" reopen pill — users reopen
+         preferences via the footer Cookie Policy link instead. Use
+         html+body prefix for higher specificity than iubenda's own rules. */
+      html body .iubenda-tp-btn,
+      html body .iubenda-cs-preferences-link,
+      html body #iubenda-cs-floating-preferences-btn,
+      html body button[data-tp-float],
+      html body button[data-tp-icon],
+      html body .iubenda-tp-btn.iubenda-cs-preferences-link {
+        display: none !important;
+        visibility: hidden !important;
+        opacity: 0 !important;
+        pointer-events: none !important;
+        width: 0 !important;
+        height: 0 !important;
+        position: absolute !important;
+        left: -9999px !important;
+      }
+
+      /* Toggle pill — visible on white. Iubenda's default checkbox bg of
+         rgba(255,255,255,0.2) disappears on a white card, so we paint our
+         own off/on states in the brand palette. */
+      #iubenda-cs-banner input[type="checkbox"] {
+        appearance: none !important;
+        -webkit-appearance: none !important;
+        width: 36px !important;
+        height: 20px !important;
+        background: #CBD5E1 !important;
+        background-color: #CBD5E1 !important;
+        border-radius: 999px !important;
+        border: none !important;
+        position: relative !important;
+        cursor: pointer !important;
+        transition: background-color 150ms ease !important;
+        flex-shrink: 0 !important;
+      }
+      #iubenda-cs-banner input[type="checkbox"]::before {
+        content: '' !important;
+        position: absolute !important;
+        top: 2px !important;
+        left: 2px !important;
+        width: 16px !important;
+        height: 16px !important;
+        background: #FFFFFF !important;
+        border-radius: 50% !important;
+        box-shadow: 0 1px 2px rgba(0,0,0,0.15) !important;
+        transition: transform 150ms ease !important;
+      }
+      #iubenda-cs-banner input[type="checkbox"]:checked {
+        background: #006AFF !important;
+        background-color: #006AFF !important;
+      }
+      #iubenda-cs-banner input[type="checkbox"]:checked::before {
+        transform: translateX(16px) !important;
+      }
+      #iubenda-cs-banner input[type="checkbox"]:disabled {
+        opacity: 0.7 !important;
+        cursor: not-allowed !important;
+      }
+
+      /* Toggle row layout — input + label text on one line. */
+      #iubenda-cs-banner .iub-toggle-checkbox {
+        display: flex !important;
+        align-items: center !important;
+        gap: 12px !important;
+        padding: 8px 0 !important;
+      }
+      #iubenda-cs-banner .iub-toggle-checkbox label {
+        cursor: pointer !important;
+        font-weight: 500 !important;
+        font-size: 14px !important;
+        color: #0F172A !important;
+      }
+    </style>
+
+    <script type="text/javascript" src="https://embeds.iubenda.com/widgets/9487e344-5262-4a14-903e-c455cf6c77e7.js"></script>
+
+    <!-- Safety net: iubenda paints with inline `style="…!important"` that
+         beats our CSS layer. Re-apply theme via JS after the banner mounts,
+         and whenever iubenda re-renders it. A `data-fc-themed` marker prevents
+         the observer from looping on its own writes. -->
+    <script type="text/javascript">
+      (function () {
+        var FONT = "'Inter', system-ui, -apple-system, sans-serif";
+        var BLUE = '#006AFF';
+        var BLUE_HOVER = '#0056D6';
+        var INK = '#0F172A';
+        var SURFACE = '#FFFFFF';
+        var MUTED = '#F1F5F9';
+        var BORDER = '#E2E8F0';
+
+        function setVar(el, prop, val) {
+          if (el && el.style) el.style.setProperty(prop, val, 'important');
+        }
+
+        function theme() {
+          var b = document.getElementById('iubenda-cs-banner');
+          if (b) {
+            // Position: bottom-left, capped width, scrollable if tall.
+            setVar(b, 'left', '16px');
+            setVar(b, 'right', 'auto');
+            setVar(b, 'bottom', '16px');
+            setVar(b, 'top', 'auto');
+            setVar(b, 'transform', 'none');
+            setVar(b, 'margin', '0');
+            setVar(b, 'max-width', '440px');
+            setVar(b, 'width', 'calc(100vw - 32px)');
+            setVar(b, 'max-height', 'calc(100vh - 32px)');
+            setVar(b, 'height', 'auto');
+            setVar(b, 'overflow', 'hidden');
+            setVar(b, 'border-radius', '14px');
+            setVar(b, 'box-shadow', '0 24px 60px -18px rgba(0,106,255,0.22), 0 2px 8px rgba(15,23,42,0.04)');
+
+            // Card surface — kill iubenda's black inline bg.
+            var surfaces = b.querySelectorAll('.iubenda-cs-container, .iubenda-cs-content, .iub-cs-container');
+            surfaces.forEach(function (el) {
+              setVar(el, 'background', SURFACE);
+              setVar(el, 'background-color', SURFACE);
+              setVar(el, 'color', INK);
+              setVar(el, 'border-radius', '14px');
+            });
+
+            // Let content size to its natural height; only scroll on very
+            // short viewports.
+            var content = b.querySelector('.iubenda-cs-content');
+            if (content) {
+              setVar(content, 'max-height', 'none');
+              setVar(content, 'height', 'auto');
+              setVar(content, 'overflow-y', 'visible');
+              setVar(content, 'padding', '18px');
+            }
+
+            // Compact first-layer: hide the per-purpose toggle list. Users
+            // who want granular control click "Learn more" / "Manage
+            // preferences" which opens iubenda's full panel anyway.
+            b.querySelectorAll('.iubenda-granular-controls-container').forEach(function (el) {
+              setVar(el, 'display', 'none');
+            });
+
+            // Tighter body text so the banner reads compact.
+            var rationale = b.querySelector('.iubenda-cs-rationale');
+            if (rationale) {
+              setVar(rationale, 'font-size', '13px');
+              setVar(rationale, 'line-height', '1.5');
+            }
+            var paragraph = b.querySelector('#iubenda-cs-paragraph');
+            if (paragraph) {
+              setVar(paragraph, 'margin', '0 0 12px');
+            }
+
+            // All text → Inter, ink colour. Force transparent bg on TEXT-only
+            // wrappers (paragraphs, headings, span/strong/em). Do NOT touch
+            // toggle/checkbox markup — iubenda paints the toggle track via
+            // CSS on those wrappers and clearing it makes them invisible.
+            b.querySelectorAll('*').forEach(function (el) {
+              setVar(el, 'font-family', FONT);
+            });
+            // Text containers always get ink colour + transparent bg. The
+            // toggle pill is painted on <input> / pseudo-elements, so wiping
+            // bg on <span>/<label> here doesn't kill it.
+            b.querySelectorAll('p, strong, em, h1, h2, h3, li, span, label').forEach(function (el) {
+              if (el.closest('button')) return;
+              setVar(el, 'color', INK);
+              setVar(el, 'background', 'transparent');
+              setVar(el, 'background-color', 'transparent');
+            });
+            // Layout divs: clear bg, but leave the toggle container alone so
+            // iubenda's CSS-painted pill keeps its track styling.
+            b.querySelectorAll('div').forEach(function (el) {
+              if (el.closest('button')) return;
+              setVar(el, 'color', INK);
+              if (
+                el.classList.contains('iubenda-cs-container') ||
+                el.classList.contains('iubenda-cs-content') ||
+                el.classList.contains('iub-cs-container') ||
+                el.closest('.iub-toggle-checkbox, [class*="granular-control"]')
+              ) {
+                return;
+              }
+              setVar(el, 'background', 'transparent');
+              setVar(el, 'background-color', 'transparent');
+            });
+
+            // Brand blue for any link in the banner.
+            b.querySelectorAll('a').forEach(function (a) {
+              setVar(a, 'color', BLUE);
+              setVar(a, 'text-decoration', 'underline');
+            });
+
+            // Hoist "Learn more" into the same row as Reject + Accept so
+            // all three sit in one balanced flex row instead of stacking.
+            // The Reject/Accept row is `.iubenda-cs-opt-group-consent`.
+            var customizeBtn = b.querySelector('.iubenda-cs-customize-btn');
+            var primaryRow = b.querySelector('.iubenda-cs-opt-group-consent') ||
+                             b.querySelector('.iubenda-cs-opt-group');
+            if (customizeBtn && primaryRow && customizeBtn.parentElement !== primaryRow) {
+              primaryRow.insertBefore(customizeBtn, primaryRow.firstChild);
+            }
+            // Collapse the now-empty customize wrapper.
+            b.querySelectorAll('.iubenda-cs-opt-group-custom').forEach(function (el) {
+              if (!el.querySelector('button')) {
+                setVar(el, 'display', 'none');
+              }
+            });
+
+            // Button row layout — one row, three equal-width buttons.
+            // Zero out margins so the row aligns flush with the body text
+            // on both sides (iubenda's default margin-left:16 caused the
+            // row to overflow the paragraph's right edge).
+            var optGroup = b.querySelector('.iubenda-cs-opt-group');
+            if (optGroup) {
+              setVar(optGroup, 'display', 'flex');
+              setVar(optGroup, 'flex-direction', 'column');
+              setVar(optGroup, 'gap', '0');
+              setVar(optGroup, 'width', 'auto');
+              setVar(optGroup, 'margin', '14px 0 0');
+            }
+            if (primaryRow) {
+              setVar(primaryRow, 'display', 'flex');
+              setVar(primaryRow, 'gap', '8px');
+              setVar(primaryRow, 'width', '100%');
+              setVar(primaryRow, 'margin', '0');
+              setVar(primaryRow, 'padding', '0');
+              setVar(primaryRow, 'flex-wrap', 'nowrap');
+              setVar(primaryRow, 'align-items', 'stretch');
+              setVar(primaryRow, 'justify-content', 'stretch');
+              setVar(primaryRow, 'box-sizing', 'border-box');
+            }
+
+            // Make the paragraph align edge-to-edge with the button row.
+            // Iubenda's `.iub-p`, `.iubenda-banner-content`, and
+            // `#iubenda-cs-paragraph` each ship with side margin/padding;
+            // clear them all so text and buttons share one inner edge.
+            b.querySelectorAll(
+              '#iubenda-cs-paragraph, .iub-p, .iubenda-banner-content, .iubenda-custom-content'
+            ).forEach(function (el) {
+              setVar(el, 'margin-left', '0');
+              setVar(el, 'margin-right', '0');
+              setVar(el, 'padding-left', '0');
+              setVar(el, 'padding-right', '0');
+            });
+
+            // Accept + Reject — equal prominence, both brand blue.
+            var primaryBtns = b.querySelectorAll(
+              '#iubenda-cs-accept-btn, #iubenda-cs-reject-btn, .iubenda-cs-accept-btn, .iubenda-cs-reject-btn, .iubenda-cs-btn-primary'
+            );
+            primaryBtns.forEach(function (btn) {
+              setVar(btn, 'background', BLUE);
+              setVar(btn, 'background-color', BLUE);
+              setVar(btn, 'color', '#FFFFFF');
+              setVar(btn, 'border', '1px solid ' + BLUE);
+              setVar(btn, 'border-radius', '10px');
+              setVar(btn, 'padding', '10px 14px');
+              setVar(btn, 'font-family', FONT);
+              setVar(btn, 'font-weight', '600');
+              setVar(btn, 'font-size', '14px');
+              setVar(btn, 'white-space', 'nowrap');
+              setVar(btn, 'flex', '1 1 0');
+              setVar(btn, 'min-width', '0');
+              setVar(btn, 'cursor', 'pointer');
+              if (btn.dataset.fcBound !== '1') {
+                btn.dataset.fcBound = '1';
+                btn.addEventListener('mouseenter', function () {
+                  setVar(btn, 'background', BLUE_HOVER);
+                  setVar(btn, 'background-color', BLUE_HOVER);
+                  setVar(btn, 'border-color', BLUE_HOVER);
+                });
+                btn.addEventListener('mouseleave', function () {
+                  setVar(btn, 'background', BLUE);
+                  setVar(btn, 'background-color', BLUE);
+                  setVar(btn, 'border-color', BLUE);
+                });
+              }
+            });
+
+            // Customize / Preferences — quiet secondary.
+            var secondaryBtns = b.querySelectorAll(
+              '#iubenda-cs-customize-btn, .iubenda-cs-customize-btn, button[class*="customize"]'
+            );
+            secondaryBtns.forEach(function (btn) {
+              setVar(btn, 'background', MUTED);
+              setVar(btn, 'background-color', MUTED);
+              setVar(btn, 'color', INK);
+              setVar(btn, 'border', '1px solid ' + BORDER);
+              setVar(btn, 'border-radius', '10px');
+              setVar(btn, 'padding', '10px 14px');
+              setVar(btn, 'font-family', FONT);
+              setVar(btn, 'font-weight', '600');
+              setVar(btn, 'font-size', '14px');
+              setVar(btn, 'white-space', 'nowrap');
+              setVar(btn, 'flex', '1 1 0');
+              setVar(btn, 'min-width', '0');
+              setVar(btn, 'cursor', 'pointer');
+            });
+
+            // Toggle checkboxes — paint our own pill via inline style.
+            // (iubenda's CSS loads after our <style> block so we can't beat
+            // it with stylesheet rules; inline always wins.)
+            b.querySelectorAll('input[type="checkbox"]').forEach(function (input) {
+              setVar(input, 'appearance', 'none');
+              setVar(input, '-webkit-appearance', 'none');
+              setVar(input, 'width', '36px');
+              setVar(input, 'height', '20px');
+              setVar(input, 'border-radius', '999px');
+              setVar(input, 'border', 'none');
+              setVar(input, 'cursor', input.disabled ? 'not-allowed' : 'pointer');
+              setVar(input, 'opacity', input.disabled ? '0.8' : '1');
+              setVar(input, 'transition', 'background-color 150ms ease, box-shadow 150ms ease');
+              setVar(input, 'flex-shrink', '0');
+              setVar(input, 'box-sizing', 'border-box');
+              function paint() {
+                if (input.checked) {
+                  setVar(input, 'background', BLUE);
+                  setVar(input, 'background-color', BLUE);
+                  setVar(input, 'box-shadow', 'inset -16px 0 0 0 ' + BLUE + ', inset 16px 0 0 0 ' + BLUE);
+                } else {
+                  setVar(input, 'background', '#CBD5E1');
+                  setVar(input, 'background-color', '#CBD5E1');
+                  setVar(input, 'box-shadow', 'none');
+                }
+              }
+              paint();
+              if (input.dataset.fcCbBound !== '1') {
+                input.dataset.fcCbBound = '1';
+                input.addEventListener('change', paint);
+              }
+            });
+          }
+
+          // Hide the floating "Privacy Choices" reopen pill — users can
+          // reopen preferences via the footer "Cookie Policy" link instead.
+          // (CCPA still requires a persistent withdraw-consent path, which
+          // is the /cookies link in the footer.)
+          var floats = document.querySelectorAll(
+            '.iubenda-tp-btn, .iubenda-cs-preferences-link, #iubenda-cs-floating-preferences-btn'
+          );
+          floats.forEach(function (f) {
+            setVar(f, 'display', 'none');
+          });
+
+          // Hide "Created with iubenda" branding (all known badge classes).
+          document.querySelectorAll(
+            '.iubenda-cs-brand, .iubenda-cs-brand-badge, .iubenda-cs-brand-badge-text, [class*="iub-cs-brand"], [class*="iubenda-brand"]'
+          ).forEach(function (el) {
+            setVar(el, 'display', 'none');
+          });
+        }
+
+        // Debounce so our own style writes don't cause an infinite observer loop.
+        var pending = false;
+        function schedule() {
+          if (pending) return;
+          pending = true;
+          requestAnimationFrame(function () {
+            pending = false;
+            theme();
+          });
+        }
+
+        var obs = new MutationObserver(schedule);
+        function start() {
+          schedule();
+          obs.observe(document.body, { childList: true, subtree: true });
+          // Re-run a few times in case iubenda hydrates async.
+          [200, 600, 1200, 2500].forEach(function (ms) { setTimeout(schedule, ms); });
+          // Belt-and-suspenders: poll every 250ms for the first 30s so we
+          // catch the floating reopen pill iubenda mounts post-consent.
+          var pollEnd = Date.now() + 30000;
+          var poller = setInterval(function () {
+            schedule();
+            if (Date.now() > pollEnd) clearInterval(poller);
+          }, 250);
+        }
+        if (document.readyState === 'loading') {
+          document.addEventListener('DOMContentLoaded', start);
+        } else {
+          start();
+        }
+      })();
+    </script>
+
+    <!-- Primary SEO -->
+    <title>Free Customer Support Inbox. AI from $9.99 | FloatChat</title>
+    <meta name="description" content="Live chat, email, and WhatsApp two-way in one inbox, free forever. Add AI, voice, and SMS from $9.99. Built for US teams. Start in 30 seconds." />
+    <link rel="canonical" href="https://floatchat.com/" />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="FloatChat" />
+    <meta property="og:url" content="https://floatchat.com/" />
+    <meta property="og:title" content="Free Customer Support Inbox — AI from $9.99 | FloatChat" />
+    <meta property="og:description" content="Live chat, email, and WhatsApp two-way in one inbox, free forever. Add AI from $9.99. Voice and SMS from $19.99." />
+    <meta property="og:image" content="https://floatchat.com/og/homepage.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="FloatChat — Free customer support inbox with AI from $9.99" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@floatchatHQ" />
+    <meta name="twitter:creator" content="@floatchatHQ" />
+    <meta name="twitter:title" content="Free Customer Support Inbox — AI from $9.99 | FloatChat" />
+    <meta name="twitter:description" content="Live chat, email, and WhatsApp two-way in one inbox, free forever. Add AI from $9.99." />
+    <meta name="twitter:image" content="https://floatchat.com/og/homepage.png" />
+
+    <!-- Favicons -->
+    <link rel="icon" type="image/png" href="/favicon.png" />
+    <link rel="apple-touch-icon" href="/favicon.png" />
+
+    <!-- Fonts — self-hosted Inter, preloaded -->
+    <link rel="preload" href="/fonts/inter.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+
+    <!-- FloatChat live-chat widget. Loads from our own backend (Chatwoot fork).
+         Positioned bottom-right by `floatchatSettings.position`. AI disclosure
+         copy is configured in the FloatChat dashboard, not here. -->
+    <link rel="preconnect" href="https://app.floatchat.com" crossorigin />
+    <script>
+      window.floatchatSettings = {
+        position: "right",
+        type: "standard",
+        launcherTitle: "Skip the wait—chat with Floatchat AI."
+      };
+      (function (d, t) {
+        var BASE_URL = "https://app.floatchat.com";
+        var g = d.createElement(t), s = d.getElementsByTagName(t)[0];
+        g.src = BASE_URL + "/packs/js/sdk.js";
+        g.async = true;
+        s.parentNode.insertBefore(g, s);
+        g.onload = function () {
+          window.floatchatSDK.run({
+            websiteToken: "9K7cyojD182qCznC1KWtFwSR",
+            baseUrl: BASE_URL
+          });
+        };
+      })(document, "script");
+    </script>
+  </head>
+  <body class="font-sans antialiased">
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
