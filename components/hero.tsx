@@ -8,7 +8,7 @@ import { Link } from "react-router-dom"
 import { ArrowUpRight, Send, Download, MousePointer2, Check, Star, MessageCircle } from "lucide-react"
 import { WordRotate } from "@/components/ui/word-rotate"
 
-const rotatingWords = ["e-commerce", "SaaS", "healthcare", "real estate", "education"]
+const rotatingWords = ["agentic AI", "e-commerce", "SaaS", "healthcare", "real estate", "education"]
 const trustBadges = [
   { icon: Check, label: "US-hosted" },
   { icon: Check, label: "Free forever plan" },

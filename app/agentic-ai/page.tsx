@@ -33,13 +33,30 @@ import {
   HandHelping,
   ScanSearch,
   Lock,
+  Truck,
+  RefreshCw,
+  CalendarCheck,
+  Server,
+  UserCheck,
+  Globe,
+  Clock,
+  Languages,
 } from "lucide-react"
 import {
   SiWhatsapp,
   SiInstagram,
   SiMessenger,
   SiGmail,
+  SiSalesforce,
+  SiHubspot,
+  SiZendesk,
+  SiShopify,
+  SiSlack,
+  SiStripe,
+  SiZapier,
+  SiNotion,
 } from "react-icons/si"
+import { FaWhatsapp } from "react-icons/fa"
 import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
 import { Testimonials } from "@/components/testimonials"
@@ -74,6 +91,133 @@ function SectionEyebrow({ num, label }: { num: string; label: string }) {
     </div>
   )
 }
+
+/* ─────────────────────────────────────────────────────────────
+   Brand tiles for the "works with your stack" logo strip
+   (these are INTEGRATIONS, not customer logos — labeled honestly)
+─────────────────────────────────────────────────────────────── */
+
+type StackBrandIcon = React.ComponentType<{ style?: React.CSSProperties }>
+
+type StackBrand = {
+  name: string
+  initial: string
+  bg: string
+  fg?: string
+  Icon?: StackBrandIcon
+}
+
+const STACK_BRANDS: StackBrand[] = [
+  { name: "Salesforce", initial: "S", bg: "#00A1E0", fg: "#FFFFFF", Icon: SiSalesforce },
+  { name: "HubSpot", initial: "H", bg: "#FF7A59", fg: "#FFFFFF", Icon: SiHubspot },
+  { name: "Zendesk", initial: "Z", bg: "#03363D", fg: "#FFFFFF", Icon: SiZendesk },
+  { name: "Shopify", initial: "S", bg: "#95BF47", fg: "#FFFFFF", Icon: SiShopify },
+  { name: "Slack", initial: "S", bg: "#4A154B", fg: "#FFFFFF", Icon: SiSlack },
+  { name: "Stripe", initial: "S", bg: "#635BFF", fg: "#FFFFFF", Icon: SiStripe },
+  { name: "Zapier", initial: "Z", bg: "#FF4F00", fg: "#FFFFFF", Icon: SiZapier },
+  { name: "Notion", initial: "N", bg: "#0F0F0F", fg: "#FFFFFF", Icon: SiNotion },
+  { name: "WhatsApp", initial: "W", bg: "#25D366", fg: "#FFFFFF", Icon: FaWhatsapp },
+]
+
+function StackTile({ brand }: { brand: StackBrand }) {
+  const fg = brand.fg ?? "#FFFFFF"
+  return (
+    <div className="group flex flex-col items-center gap-2">
+      <div
+        className="h-12 w-12 rounded-xl flex items-center justify-center font-bold text-[15px] shadow-[0_8px_18px_-8px_rgba(15,42,74,0.25)] ring-1 ring-black/5 transition-transform group-hover:-translate-y-0.5"
+        style={{ background: brand.bg, color: fg }}
+        aria-label={brand.name}
+        title={brand.name}
+      >
+        {brand.Icon ? (
+          <brand.Icon style={{ color: fg, width: 22, height: 22 }} />
+        ) : (
+          brand.initial
+        )}
+      </div>
+      <span className="text-[11px] font-medium text-slate-500">{brand.name}</span>
+    </div>
+  )
+}
+
+/* ─────────────────────────────────────────────────────────────
+   "By the numbers" capability metrics (honest framing — these are
+   product capabilities, NOT fabricated customer results)
+─────────────────────────────────────────────────────────────── */
+
+const capabilityMetrics = [
+  { Icon: CheckCircle2, value: "Up to 60%", label: "of routine tickets resolved autonomously" },
+  { Icon: Globe, value: "7 channels", label: "chat, voice & messaging — one agent" },
+  { Icon: Languages, value: "100+", label: "languages, out of the box" },
+  { Icon: Clock, value: "24/7", label: "no queue, no wait, no off-hours" },
+]
+
+/* ─────────────────────────────────────────────────────────────
+   "See it act" — real multi-step conversations the agent completes
+   end to end, each with a green "action taken" chip naming the tool
+─────────────────────────────────────────────────────────────── */
+
+type SeeItActCard = {
+  channel: string
+  channelBg: string
+  ChannelIcon: StackBrandIcon | typeof MessageSquare
+  channelIsBrand?: boolean
+  customer: string
+  agent: string
+  ActionIcon: typeof Truck
+  action: string
+  ref: string
+}
+
+const seeItActCards: SeeItActCard[] = [
+  {
+    channel: "WhatsApp",
+    channelBg: "#25D366",
+    ChannelIcon: SiWhatsapp,
+    channelIsBrand: true,
+    customer: "Where's my order? It still says processing and I needed it for the weekend.",
+    agent:
+      "I found order #A-4471 — it was stuck on a warehouse hold. I've released it, upgraded you to express at no charge, and a replacement is shipping today. New ETA: tomorrow by 6pm.",
+    ActionIcon: Truck,
+    action: "Order looked up · hold cleared · replacement shipped",
+    ref: "#A-4471",
+  },
+  {
+    channel: "Voice",
+    channelBg: "#3B82F6",
+    ChannelIcon: Phone,
+    customer: "I need to move my Thursday appointment — something came up at work.",
+    agent:
+      "No problem. Thursday 2pm is now open on Friday at 10am or Monday at 9am. I've booked you Friday 10am and texted a confirmation with the calendar invite.",
+    ActionIcon: CalendarCheck,
+    action: "Calendar checked · slot rebooked · booking confirmed",
+    ref: "Fri 10:00",
+  },
+  {
+    channel: "Email",
+    channelBg: "#EA4335",
+    ChannelIcon: SiGmail,
+    channelIsBrand: true,
+    customer: "The blender stopped working after two weeks. I'd like a refund, please.",
+    agent:
+      "That's covered by your 30-day return policy. I've issued a full $89.00 refund to your original card and emailed the return label. You'll see it in 3–5 business days.",
+    ActionIcon: RefreshCw,
+    action: "Policy checked · refund issued · label sent",
+    ref: "$89.00",
+  },
+]
+
+/* ─────────────────────────────────────────────────────────────
+   Trust & security badges
+─────────────────────────────────────────────────────────────── */
+
+const trustBadges = [
+  { Icon: ShieldCheck, label: "SOC 2 Type II" },
+  { Icon: Lock, label: "GDPR + CCPA" },
+  { Icon: ListChecks, label: "Your guardrails, enforced" },
+  { Icon: UserCheck, label: "Human handoff built in" },
+  { Icon: Server, label: "Data stays yours" },
+]
 
 /* ─────────────────────────────────────────────────────────────
    HERO MOCKUP — the agent EXECUTES a multi-step task from a single
@@ -927,9 +1071,10 @@ export default function AgenticAiPage() {
                   transition={{ duration: 0.5, delay: 0.2 }}
                   className="mt-5 text-[15px] lg:text-base text-slate-500 max-w-xl leading-relaxed"
                 >
-                  Autonomous AI agents that complete multi-step tasks across your
-                  tools and channels — with guardrails and human handoff built
-                  in. The difference between a chatbot and a teammate.
+                  Autonomous AI agents that resolve requests end to end — looking
+                  up, updating, and confirming across your tools and channels.
+                  Built to act inside your guardrails, and scale without adding
+                  headcount.
                 </motion.p>
 
                 <motion.div
@@ -1006,49 +1151,80 @@ export default function AgenticAiPage() {
           </div>
         </section>
 
-        {/* ───── RESULTS / STATS BAR ───── */}
-        <section className="relative bg-white py-10 lg:py-14 border-y border-slate-200/70">
+        {/* ───── LOGO STRIP — works with your stack ───── */}
+        <section className="relative bg-white py-12 lg:py-14 border-b border-slate-200/70">
           <div className="mx-auto max-w-7xl px-6 lg:px-8">
-            <div className="grid grid-cols-2 lg:grid-cols-4 gap-x-6 gap-y-8">
-              {[
-                {
-                  Icon: Workflow,
-                  value: "Multi-step",
-                  label: "actions from one request",
-                },
-                {
-                  Icon: Plug,
-                  value: "Orchestrates",
-                  label: "your tools and databases",
-                },
-                {
-                  Icon: Brain,
-                  value: "Decides",
-                  label: "when to act or ask",
-                },
-                {
-                  Icon: MessageSquare,
-                  value: "Everywhere",
-                  label: "chat, voice & messaging",
-                },
-              ].map((s, i) => (
+            <BlurFade>
+              <p className="text-center text-[11px] uppercase tracking-[0.2em] font-semibold text-slate-400">
+                Connects the tools you already run
+              </p>
+            </BlurFade>
+            <BlurFade delay={0.08}>
+              <div className="mt-8 flex flex-wrap items-start justify-center gap-x-8 gap-y-7 sm:gap-x-12">
+                {STACK_BRANDS.map((b) => (
+                  <StackTile key={b.name} brand={b} />
+                ))}
+              </div>
+            </BlurFade>
+            <BlurFade delay={0.16}>
+              <p className="mt-8 text-center text-[12.5px] text-slate-500">
+                Plus 200+ native integrations, a REST API, and webhooks —{" "}
+                <Link
+                  to="/integrations"
+                  className="font-medium text-[#1D4ED8] underline underline-offset-2 hover:no-underline"
+                >
+                  see all integrations
+                </Link>
+                .
+              </p>
+            </BlurFade>
+          </div>
+        </section>
+
+        {/* ───── RESULTS / BY THE NUMBERS ───── */}
+        <section className="relative bg-gradient-to-b from-white to-[#F5F7FF] py-16 lg:py-20 border-b border-slate-200/70 overflow-hidden">
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute inset-0 -z-10 opacity-70"
+            style={{
+              background:
+                "radial-gradient(ellipse 60% 70% at 50% 0%, rgba(59,130,246,0.10), transparent 70%)",
+            }}
+          />
+          <div className="mx-auto max-w-7xl px-6 lg:px-8">
+            <BlurFade>
+              <p className="text-center text-[11px] uppercase tracking-[0.2em] font-semibold text-[#3B82F6]">
+                By the numbers
+              </p>
+              <h2 className="mt-3 text-center text-2xl sm:text-3xl lg:text-[34px] font-medium tracking-tight text-[#0F2A4A] leading-tight">
+                What an agent that acts — not just answers — changes.
+              </h2>
+            </BlurFade>
+            <div className="mt-12 grid grid-cols-2 lg:grid-cols-4 gap-x-6 gap-y-10">
+              {capabilityMetrics.map((s, i) => (
                 <BlurFade key={s.label} delay={i * 0.08}>
-                  <div className="flex items-start gap-3">
-                    <div className="h-10 w-10 rounded-xl bg-[#EAF2FF] flex items-center justify-center shrink-0">
+                  <div className="text-center">
+                    <div className="mx-auto h-11 w-11 rounded-xl bg-[#EAF2FF] flex items-center justify-center">
                       <s.Icon className="h-5 w-5 text-[#1D4ED8]" />
                     </div>
-                    <div>
-                      <p className="text-xl lg:text-2xl font-semibold text-[#0F2A4A] leading-none">
+                    <p className="mt-4 text-3xl lg:text-[42px] font-semibold tracking-tight text-[#0F2A4A] leading-none">
+                      <span className="bg-gradient-to-r from-[#3B82F6] to-[#1D4ED8] bg-clip-text text-transparent">
                         {s.value}
-                      </p>
-                      <p className="mt-1.5 text-[12.5px] text-slate-500 leading-snug">
-                        {s.label}
-                      </p>
-                    </div>
+                      </span>
+                    </p>
+                    <p className="mt-3 mx-auto max-w-[200px] text-[13px] text-slate-500 leading-snug">
+                      {s.label}
+                    </p>
                   </div>
                 </BlurFade>
               ))}
             </div>
+            <BlurFade delay={0.36}>
+              <p className="mt-10 text-center text-[12.5px] text-slate-400">
+                Capabilities of the platform — your results depend on your setup,
+                volume, and policies.
+              </p>
+            </BlurFade>
           </div>
         </section>
 
@@ -1224,12 +1400,147 @@ export default function AgenticAiPage() {
           </div>
         </section>
 
+        {/* ───── SEE IT ACT — real conversations ───── */}
+        <section className="relative py-20 lg:py-28 bg-gradient-to-b from-white to-[#F5F7FF] overflow-hidden">
+          <div
+            className="absolute inset-0 -z-10 opacity-30"
+            style={{
+              backgroundImage:
+                "radial-gradient(circle, rgba(15,42,74,0.07) 1px, transparent 1px)",
+              backgroundSize: "26px 26px",
+              maskImage:
+                "radial-gradient(ellipse 75% 60% at 50% 40%, black 30%, transparent 95%)",
+              WebkitMaskImage:
+                "radial-gradient(ellipse 75% 60% at 50% 40%, black 30%, transparent 95%)",
+            }}
+            aria-hidden="true"
+          />
+          <div className="mx-auto max-w-7xl px-6 lg:px-8">
+            <div className="max-w-3xl mb-12">
+              <BlurFade>
+                <SectionEyebrow num="03" label="See it act" />
+                <h2 className="text-3xl sm:text-4xl lg:text-5xl font-medium tracking-tight text-[#0F2A4A] leading-[1.05]">
+                  Watch it actually do the work.
+                </h2>
+                <p className="mt-4 text-base text-slate-500 leading-relaxed">
+                  Not a canned reply, not a help-article link. Each of these is a
+                  real multi-step task — looked up, acted on, and confirmed in one
+                  go. The green chip is the action the agent actually took.
+                </p>
+              </BlurFade>
+            </div>
+
+            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+              {seeItActCards.map((c, i) => (
+                <BlurFade key={c.channel + c.ref} delay={0.05 + i * 0.1} className="h-full">
+                  <div className="group h-full flex flex-col rounded-2xl border border-slate-200 bg-white overflow-hidden shadow-[0_20px_50px_-30px_rgba(15,42,74,0.3)] hover:border-slate-300 hover:shadow-[0_30px_60px_-30px_rgba(15,42,74,0.3)] transition-all duration-300">
+                    {/* Chrome + channel label */}
+                    <div className="flex items-center gap-1.5 px-3 py-2 border-b border-slate-200 bg-slate-50/80">
+                      <span className="h-2.5 w-2.5 rounded-full bg-red-400/70" />
+                      <span className="h-2.5 w-2.5 rounded-full bg-amber-400/70" />
+                      <span className="h-2.5 w-2.5 rounded-full bg-emerald-400/70" />
+                      <span className="ml-auto inline-flex items-center gap-1.5 rounded-full bg-white border border-slate-200 px-2 py-0.5">
+                        <span
+                          className="h-3.5 w-3.5 rounded-[5px] flex items-center justify-center"
+                          style={{ background: c.channelBg }}
+                        >
+                          {c.channelIsBrand ? (
+                            <c.ChannelIcon style={{ color: "#FFFFFF", width: 9, height: 9 }} />
+                          ) : (
+                            <c.ChannelIcon className="h-2.5 w-2.5 text-white" />
+                          )}
+                        </span>
+                        <span className="text-[9.5px] font-medium text-[#0F2A4A]">
+                          {c.channel}
+                        </span>
+                      </span>
+                    </div>
+
+                    {/* Conversation */}
+                    <div className="flex-1 p-4 space-y-3 bg-white">
+                      {/* Customer bubble */}
+                      <div className="flex justify-start">
+                        <div className="bg-white border border-slate-200 rounded-2xl rounded-bl-sm px-3 py-2 max-w-[88%] shadow-sm">
+                          <p className="text-[12px] text-[#0F2A4A] leading-snug">
+                            {c.customer}
+                          </p>
+                        </div>
+                      </div>
+
+                      {/* Action chip — the tool action */}
+                      <div className="rounded-lg border border-emerald-200 bg-emerald-50 px-2.5 py-2">
+                        <div className="flex items-center gap-1.5">
+                          <CheckCircle2 className="h-3.5 w-3.5 text-emerald-600 shrink-0" />
+                          <span className="text-[10px] font-semibold text-emerald-800 leading-snug">
+                            Action taken
+                          </span>
+                          <span className="ml-auto font-mono text-[9px] text-emerald-700/80">
+                            {c.ref}
+                          </span>
+                        </div>
+                        <div className="mt-1 flex items-center gap-1.5">
+                          <c.ActionIcon className="h-3 w-3 text-emerald-700 shrink-0" />
+                          <span className="text-[10.5px] text-emerald-900/85 leading-snug">
+                            {c.action}
+                          </span>
+                        </div>
+                      </div>
+
+                      {/* Agent bubble */}
+                      <div className="flex items-start gap-2 justify-end">
+                        <div className="bg-gradient-to-br from-[#3B82F6] to-[#1D4ED8] rounded-2xl rounded-br-sm px-3 py-2 max-w-[88%] shadow-sm">
+                          <p className="text-[12px] text-white leading-snug">
+                            {c.agent}
+                          </p>
+                        </div>
+                        <div className="h-6 w-6 rounded-full bg-gradient-to-br from-[#60A5FA] to-[#1D4ED8] flex items-center justify-center shrink-0 mt-0.5">
+                          <Bot className="h-3 w-3 text-white" />
+                        </div>
+                      </div>
+
+                      {/* Resolved footer */}
+                      <div className="flex items-center gap-1.5 pt-1">
+                        <CheckCircle2 className="h-3 w-3 text-emerald-500" />
+                        <span className="text-[9.5px] font-medium text-emerald-600">
+                          Resolved · no human needed
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </BlurFade>
+              ))}
+            </div>
+
+            <BlurFade delay={0.3}>
+              <div className="mt-8 flex flex-wrap items-center gap-3">
+                <span className="text-[12px] font-medium uppercase tracking-wider text-slate-400">
+                  See it for
+                </span>
+                {[
+                  { to: "/ai-agents/customer-service", label: "Customer service" },
+                  { to: "/ai-agents/booking", label: "Booking" },
+                  { to: "/ai-agents/sales", label: "Sales" },
+                ].map((p) => (
+                  <Link
+                    key={p.to}
+                    to={p.to}
+                    className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-4 py-2 text-[13px] font-medium text-[#0F2A4A] hover:border-[#3B82F6]/40 hover:text-[#1D4ED8] transition-colors"
+                  >
+                    {p.label}
+                    <ArrowUpRight className="h-3.5 w-3.5" />
+                  </Link>
+                ))}
+              </div>
+            </BlurFade>
+          </div>
+        </section>
+
         {/* ───── ORCHESTRATION DIAGRAM ───── */}
         <section className="relative py-20 lg:py-28 bg-gradient-to-b from-[#F5F7FF] to-white overflow-hidden">
           <div className="mx-auto max-w-7xl px-6 lg:px-8">
             <div className="max-w-3xl mb-12">
               <BlurFade>
-                <SectionEyebrow num="03" label="Orchestration" />
+                <SectionEyebrow num="04" label="Orchestration" />
                 <h2 className="text-3xl sm:text-4xl lg:text-5xl font-medium tracking-tight text-[#0F2A4A] leading-[1.05]">
                   One agent, every system, one workflow.
                 </h2>
@@ -1322,7 +1633,7 @@ export default function AgenticAiPage() {
           <div className="mx-auto max-w-7xl px-6 lg:px-8">
             <div className="grid grid-cols-12 gap-6 items-end mb-12">
               <BlurFade className="col-span-12 lg:col-span-8">
-                <SectionEyebrow num="04" label="Where it works" />
+                <SectionEyebrow num="05" label="Where it works" />
                 <h2 className="text-3xl sm:text-4xl lg:text-5xl font-medium tracking-tight text-[#0F2A4A] leading-[1.05]">
                   Every channel. Every agent.
                 </h2>
@@ -1421,7 +1732,7 @@ export default function AgenticAiPage() {
           <div className="mx-auto max-w-7xl px-6 lg:px-8">
             <div className="max-w-3xl mb-12">
               <BlurFade>
-                <SectionEyebrow num="05" label="Why FloatChat" />
+                <SectionEyebrow num="06" label="Why FloatChat" />
                 <h2 className="text-3xl sm:text-4xl lg:text-5xl font-medium tracking-tight text-[#0F2A4A] leading-[1.05]">
                   Agentic AI plus the platform to run it.
                 </h2>
@@ -1508,6 +1819,39 @@ export default function AgenticAiPage() {
           </div>
         </section>
 
+        {/* ───── TRUST & SECURITY ───── */}
+        <section className="relative bg-white py-14 lg:py-16 border-y border-slate-200/70">
+          <div className="mx-auto max-w-7xl px-6 lg:px-8">
+            <BlurFade>
+              <div className="text-center max-w-2xl mx-auto">
+                <SectionEyebrow num="07" label="Trust & security" />
+                <h2 className="text-2xl sm:text-3xl font-medium tracking-tight text-[#0F2A4A] leading-tight">
+                  Agentic doesn&apos;t mean unsupervised.
+                </h2>
+                <p className="mt-3 text-[14px] text-slate-500 leading-relaxed">
+                  The agent only ever acts inside the limits you set — and every
+                  action stays on the rails, audited, and yours.
+                </p>
+              </div>
+            </BlurFade>
+            <BlurFade delay={0.1}>
+              <div className="mt-9 flex flex-wrap items-center justify-center gap-3">
+                {trustBadges.map((b) => (
+                  <div
+                    key={b.label}
+                    className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-slate-50/60 px-4 py-2"
+                  >
+                    <b.Icon className="h-4 w-4 text-[#1D4ED8] shrink-0" />
+                    <span className="text-[13px] font-medium text-[#0F2A4A]">
+                      {b.label}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </BlurFade>
+          </div>
+        </section>
+
         {/* ───── INLINE CTA ───── */}
         <InlineCTA
           headline="Put agentic AI to work across every channel."
@@ -1526,7 +1870,7 @@ export default function AgenticAiPage() {
           <div className="mx-auto max-w-7xl px-6 lg:px-8">
             <div className="max-w-3xl mb-12">
               <BlurFade>
-                <SectionEyebrow num="06" label="Explore" />
+                <SectionEyebrow num="08" label="Explore" />
                 <h2 className="text-3xl sm:text-4xl lg:text-5xl font-medium tracking-tight text-[#0F2A4A] leading-[1.05]">
                   Where agentic AI shows up next.
                 </h2>

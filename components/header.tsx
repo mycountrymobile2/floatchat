@@ -362,29 +362,26 @@ export function Header() {
                   </div>
                   <span className="text-[10px] text-slate-400">By industry</span>
                 </div>
-                <div className="grid grid-cols-2 gap-1">
+                <div className="grid grid-cols-2 gap-x-3 gap-y-0.5">
                   {solutionLinks.map((item) => (
                     <Link
                       key={item.name}
                       to={item.href}
-                      className="group relative flex items-start gap-3.5 rounded-xl p-3.5 hover:bg-slate-50 transition-all"
+                      className="group flex items-start gap-2.5 rounded-lg p-2 hover:bg-slate-50 transition-colors"
                     >
                       <div
-                        className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-xl ${item.tileBg} ring-1 ${item.tileRing} group-hover:scale-105 transition-transform duration-300`}
+                        className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-lg ${item.tileBg} ring-1 ${item.tileRing} group-hover:scale-105 transition-transform duration-300`}
                       >
-                        <item.icon className={`h-5 w-5 ${item.iconColor}`} strokeWidth={2.25} />
+                        <item.icon className={`h-4 w-4 ${item.iconColor}`} strokeWidth={2.25} />
                       </div>
-                      <div className="flex-1 min-w-0">
-                        <p className="text-[14px] font-semibold text-[#0F2A4A] group-hover:text-[#1D4ED8] transition-colors">
+                      <div className="min-w-0">
+                        <p className="text-[14px] font-semibold text-[#0F2A4A] group-hover:text-[#1D4ED8] transition-colors leading-tight">
                           {item.name}
                         </p>
                         <p className="text-[12px] text-slate-500 leading-snug mt-0.5">
                           {item.desc}
                         </p>
                       </div>
-                      <ChevronDown
-                        className="h-3.5 w-3.5 text-slate-300 -rotate-90 opacity-0 group-hover:opacity-100 group-hover:text-[#3B82F6] transition-all shrink-0 mt-1"
-                      />
                     </Link>
                   ))}
                 </div>
@@ -448,29 +445,26 @@ export function Header() {
                   </div>
                   <span className="text-[10px] text-slate-400">Learn & build</span>
                 </div>
-                <div className="grid grid-cols-2 gap-1">
+                <div className="grid grid-cols-2 gap-x-3 gap-y-0.5">
                   {resourceLinks.map((item) => (
                     <Link
                       key={item.name}
                       to={item.href}
-                      className="group relative flex items-start gap-3.5 rounded-xl p-3.5 hover:bg-slate-50 transition-all"
+                      className="group flex items-start gap-2.5 rounded-lg p-2 hover:bg-slate-50 transition-colors"
                     >
                       <div
-                        className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-xl ${item.tileBg} ring-1 ${item.tileRing} group-hover:scale-105 transition-transform duration-300`}
+                        className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-lg ${item.tileBg} ring-1 ${item.tileRing} group-hover:scale-105 transition-transform duration-300`}
                       >
-                        <item.icon className={`h-5 w-5 ${item.iconColor}`} strokeWidth={2.25} />
+                        <item.icon className={`h-4 w-4 ${item.iconColor}`} strokeWidth={2.25} />
                       </div>
-                      <div className="flex-1 min-w-0">
-                        <p className="text-[14px] font-semibold text-[#0F2A4A] group-hover:text-[#1D4ED8] transition-colors">
+                      <div className="min-w-0">
+                        <p className="text-[14px] font-semibold text-[#0F2A4A] group-hover:text-[#1D4ED8] transition-colors leading-tight">
                           {item.name}
                         </p>
                         <p className="text-[12px] text-slate-500 leading-snug mt-0.5">
                           {item.desc}
                         </p>
                       </div>
-                      <ChevronDown
-                        className="h-3.5 w-3.5 text-slate-300 -rotate-90 opacity-0 group-hover:opacity-100 group-hover:text-[#3B82F6] transition-all shrink-0 mt-1"
-                      />
                     </Link>
                   ))}
                 </div>
