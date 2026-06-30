@@ -37,6 +37,8 @@ const AgenticAiPage = lazy(() => import("@/app/agentic-ai/page"))
 const AgentCopilotPage = lazy(() => import("@/app/products/agent-copilot/page"))
 const AnalyticsPage = lazy(() => import("@/app/products/analytics/page"))
 const OmnichannelInboxPage = lazy(() => import("@/app/products/omnichannel-inbox/page"))
+const AboutUsPage = lazy(() => import("@/app/about-us/page"))
+const ContactUsPage = lazy(() => import("@/app/contact-us/page"))
 
 // Lazy loaded — solutions
 const EcommercePage = lazy(() => import("@/app/solutions/ecommerce/page"))
@@ -184,6 +186,8 @@ export default function App() {
           <Route path="/products/agent-copilot" element={<AgentCopilotPage />} />
           <Route path="/products/analytics" element={<AnalyticsPage />} />
           <Route path="/products/omnichannel-inbox" element={<OmnichannelInboxPage />} />
+          <Route path="/about-us" element={<AboutUsPage />} />
+          <Route path="/contact-us" element={<ContactUsPage />} />
 
           {/* Solutions */}
           <Route path="/solutions/ecommerce" element={<EcommercePage />} />

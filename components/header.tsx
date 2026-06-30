@@ -163,6 +163,15 @@ const resourceLinks = [
     tileRing: "ring-purple-100",
     iconColor: "text-purple-600",
   },
+  {
+    name: "About Us",
+    href: "/about-us",
+    icon: Building2,
+    desc: "Our mission and the platform",
+    tileBg: "bg-blue-50",
+    tileRing: "ring-blue-100",
+    iconColor: "text-blue-600",
+  },
 ]
 
 type DropdownKey = "product" | "solutions" | "resources" | null

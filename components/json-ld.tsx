@@ -52,6 +52,8 @@ const SEGMENT_LABELS: Record<string, string> = {
   automation: "Automation",
   integrations: "Integrations",
   about: "About",
+  "about-us": "About",
+  "contact-us": "Contact",
   customers: "Customers",
   blog: "Blog",
   contact: "Contact",

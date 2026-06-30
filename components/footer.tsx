@@ -46,8 +46,8 @@ const footerLinks = {
     { name: "Customers", href: "/customers" },
   ],
   Company: [
-    { name: "About", href: "/about" },
-    { name: "Contact", href: "/contact" },
+    { name: "About", href: "/about-us" },
+    { name: "Contact", href: "/contact-us" },
     { name: "Trust & Security", href: "/trust" },
     { name: "Privacy", href: "/privacy" },
     { name: "Terms", href: "/terms" },

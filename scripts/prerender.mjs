@@ -36,7 +36,7 @@ const routes = [
   "/vs/help-scout", "/vs/front", "/vs/drift", "/vs/gorgias", "/vs/crisp",
   "/vs/tawk", "/vs/chatmitra",
   "/customers", "/help", "/docs", "/changelog", "/templates", "/status",
-  "/about", "/trust", "/security", "/contact",
+  "/about", "/about-us", "/trust", "/security", "/contact", "/contact-us",
   "/privacy", "/terms", "/dpa", "/cookies", "/aup", "/accessibility", "/subprocessors", "/subprocessors/subscribe",
   "/blog",
   "/blog/floatchat-vs-intercom", "/blog/ai-customer-support-bundled",
