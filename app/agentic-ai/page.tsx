@@ -220,50 +220,64 @@ const trustBadges = [
 ]
 
 /* ─────────────────────────────────────────────────────────────
-   HERO MOCKUP — the agent EXECUTES a multi-step task from a single
-   request. A checklist lights up step by step:
-     Understand intent → Look up order → Update record → Confirm
-   ending in a "Done · no human needed" state. Phase-driven.
+   HERO MOCKUP — "Agent at work". One customer message comes in; the
+   agent REASONS (reads → plans) then TAKES REAL ACTIONS across real
+   apps (Shopify, Stripe, Gmail) to finish the task end-to-end, and
+   replies — no human needed. Single-column, phase-driven.
 ─────────────────────────────────────────────────────────────── */
 
 type TaskStepState = "idle" | "running" | "done"
 
-type ActionStep = {
+type AgentAction = {
   id: string
-  Icon: typeof Brain
+  Logo: typeof SiShopify
+  brand: string
   label: string
   detail: string
 }
 
-const ACTION_STEPS: ActionStep[] = [
-  {
-    id: "intent",
-    Icon: Brain,
-    label: "Understand intent",
-    detail: "“Switch my order to express and email me a receipt.”",
-  },
+const AGENT_ACTIONS: AgentAction[] = [
   {
     id: "lookup",
-    Icon: ScanSearch,
-    label: "Look up order",
-    detail: "Found #A-2291 · in edit window · standard shipping",
+    Logo: SiShopify,
+    brand: "#95BF47",
+    label: "Looked up the order",
+    detail: "#FC-2841 · delivered, damaged on arrival",
   },
   {
-    id: "update",
-    Icon: Package,
-    label: "Update record",
-    detail: "Standard → Express · no extra charge applied",
+    id: "refund",
+    Logo: SiStripe,
+    brand: "#635BFF",
+    label: "Refunded the shipping",
+    detail: "$6.99 back to the original card",
   },
   {
-    id: "confirm",
-    Icon: Mail,
-    label: "Confirm change",
-    detail: "Receipt + new ETA sent to the customer",
+    id: "replace",
+    Logo: SiShopify,
+    brand: "#95BF47",
+    label: "Shipped a replacement",
+    detail: "#FC-2920 · express, no charge",
+  },
+  {
+    id: "email",
+    Logo: SiGmail,
+    brand: "#EA4335",
+    label: "Emailed the customer",
+    detail: "Tracking + apology on the way",
   },
 ]
 
 function AgenticTaskMockup() {
-  // phase 0 = intent received, 1..4 = steps completing, 5 = done badge
+  /*
+    Phases:
+      0 = message in, agent "reading…"
+      1 = plan resolved, action 1 running
+      2 = action 1 done, action 2 running
+      3 = action 2 done, action 3 running
+      4 = action 3 done, action 4 running
+      5 = all actions done → final reply + footer
+      6 = hold on the resolved state, then loop
+  */
   const [phase, setPhase] = useState(0)
 
   useEffect(() => {
@@ -271,13 +285,13 @@ function AgenticTaskMockup() {
     const wait = (ms: number) => new Promise((r) => setTimeout(r, ms))
     const run = async () => {
       while (!cancelled) {
-        for (let p = 0; p <= 5; p++) {
+        for (let p = 0; p <= 6; p++) {
           if (cancelled) return
           setPhase(p)
-          await wait(p === 0 ? 1400 : p === 5 ? 2600 : 1250)
+          await wait(
+            p === 0 ? 1500 : p === 5 ? 1400 : p === 6 ? 2600 : 1250
+          )
         }
-        // brief pause on the finished state before looping
-        await wait(900)
       }
     }
     run()
@@ -286,20 +300,19 @@ function AgenticTaskMockup() {
     }
   }, [])
 
-  const stepState = (index: number): TaskStepState => {
-    // step index is 0-based; it starts running at phase index+1
+  const actionState = (index: number): TaskStepState => {
+    // action `index` starts running at phase index+1, done at index+2
     const startPhase = index + 1
     if (phase < startPhase) return "idle"
     if (phase === startPhase) return "running"
     return "done"
   }
 
+  const planReady = phase >= 1
   const allDone = phase >= 5
-  const completed = Math.max(0, Math.min(ACTION_STEPS.length, phase))
-  const progressPct = (completed / ACTION_STEPS.length) * 100
 
   return (
-    <div className="relative">
+    <div className="relative w-full max-w-[440px] lg:ml-auto">
       {/* Glow behind */}
       <div
         aria-hidden="true"
@@ -310,16 +323,16 @@ function AgenticTaskMockup() {
         }}
       />
 
-      {/* Floating "one request" chip */}
+      {/* Floating "reasons, then acts" chip */}
       <motion.div
         initial={{ opacity: 0, y: 8 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, delay: 0.4 }}
         className="absolute -top-3 -left-3 z-20 hidden sm:flex items-center gap-2 rounded-full border border-[#3B82F6]/25 bg-white px-3 py-1.5 shadow-[0_8px_20px_-8px_rgba(15,42,74,0.18)]"
       >
-        <Zap className="h-3 w-3 text-[#1D4ED8]" />
+        <Brain className="h-3 w-3 text-[#1D4ED8]" />
         <span className="text-[11px] font-medium text-[#0F2A4A]">
-          1 request · 4 actions
+          Reasons, then acts
         </span>
       </motion.div>
 
@@ -344,321 +357,207 @@ function AgenticTaskMockup() {
           <span className="h-2.5 w-2.5 rounded-full bg-amber-400/70" />
           <span className="h-2.5 w-2.5 rounded-full bg-emerald-400/70" />
           <span className="ml-3 font-mono text-[10px] text-slate-400">
-            app.floatchat.com · agent run
+            app.floatchat.com · AI agent
           </span>
-          <span className="ml-auto inline-flex items-center gap-1 rounded-full bg-[#3B82F6]/10 border border-[#3B82F6]/20 px-2 py-0.5 text-[9px] font-medium text-[#1D4ED8]">
-            <span className="h-1.5 w-1.5 rounded-full bg-[#3B82F6] animate-pulse" />
-            Working
-          </span>
+          {allDone ? (
+            <span className="ml-auto inline-flex items-center gap-1 rounded-full bg-emerald-50 border border-emerald-200 px-2 py-0.5 text-[9px] font-medium text-emerald-700">
+              <CheckCircle2 className="h-2.5 w-2.5" />
+              Resolved
+            </span>
+          ) : (
+            <span className="ml-auto inline-flex items-center gap-1 rounded-full bg-[#3B82F6]/10 border border-[#3B82F6]/20 px-2 py-0.5 text-[9px] font-medium text-[#1D4ED8]">
+              <span className="h-1.5 w-1.5 rounded-full bg-[#3B82F6] animate-pulse" />
+              Working…
+            </span>
+          )}
         </div>
 
-        <div className="grid grid-cols-12 min-h-[460px]">
-          {/* Tools / context rail — hidden on phones */}
-          <aside className="hidden md:flex md:col-span-4 border-r border-slate-200 bg-slate-50/50 flex-col">
-            <div className="px-3 py-2.5 border-b border-slate-200">
-              <p className="text-[10px] uppercase tracking-wider text-slate-400 font-medium">
-                Tools it can use
-              </p>
-            </div>
-            <div className="px-3 py-3 space-y-2">
-              <ToolRow
-                Icon={Database}
-                label="Order system"
-                meta="read · write"
-                active={phase >= 2 && phase <= 3}
-              />
-              <ToolRow
-                Icon={CreditCard}
-                label="Billing"
-                meta="charge · refund"
-                active={phase === 3}
-              />
-              <ToolRow
-                Icon={Mail}
-                label="Email / receipts"
-                meta="send"
-                active={phase >= 4}
-              />
-              <ToolRow Icon={Calendar} label="Scheduling" meta="standby" />
-            </div>
-            <div className="mt-auto px-3 py-3 border-t border-slate-200 space-y-2">
-              <p className="text-[10px] uppercase tracking-wider text-slate-400 font-medium">
-                Guardrails
-              </p>
-              <RailStat
-                label="Refund cap"
-                value="$200 auto"
-                tone="blue"
-              />
-              <RailStat label="Edit window" value="Honored" tone="emerald" />
-              <RailStat
-                label="Escalate if"
-                value="Out of policy"
-                tone="amber"
-              />
-            </div>
-          </aside>
-
-          {/* Run pane */}
-          <section className="col-span-12 md:col-span-8 flex flex-col bg-white">
-            {/* Request header */}
-            <div className="px-4 py-2.5 border-b border-slate-200 flex items-center justify-between">
-              <div className="flex items-center gap-2">
-                <div className="h-7 w-7 rounded-full bg-gradient-to-br from-[#60A5FA] to-[#1D4ED8] flex items-center justify-center shrink-0">
-                  <Bot className="h-3.5 w-3.5 text-white" />
-                </div>
-                <div>
-                  <p className="text-[11px] font-medium text-[#0F2A4A] leading-tight">
-                    FloatChat Agent
-                  </p>
-                  <p className="text-[9px] text-slate-500">
-                    Executing a multi-step task
-                  </p>
-                </div>
+        {/* Single-column run pane — FIXED height so the card never resizes
+            (the footer appears on the resolved phase without growing it). */}
+        <div className="flex flex-col bg-white h-[448px] px-4 py-3.5">
+          {/* Customer message */}
+          <div className="flex items-start gap-2.5">
+            <img
+              src="https://i.pravatar.cc/80?img=5"
+              alt="Customer avatar"
+              loading="lazy"
+              className="h-8 w-8 rounded-full object-cover shrink-0 border border-slate-200"
+            />
+            <div className="min-w-0">
+              <div className="bg-slate-50 border border-slate-200 rounded-2xl rounded-tl-sm px-3 py-2 shadow-sm">
+                <p className="text-[12px] text-[#0F2A4A] leading-snug">
+                  My order arrived damaged — can you send a replacement and
+                  refund the shipping?
+                </p>
               </div>
-              <span className="inline-flex items-center gap-1 rounded-full bg-[#3B82F6]/10 border border-[#3B82F6]/20 px-2 py-0.5 text-[9px] font-medium text-[#1D4ED8]">
-                <Sparkles className="h-2.5 w-2.5" /> Autonomous
-              </span>
+              <p className="text-[9px] text-slate-400 mt-1 ml-1">10:02 AM</p>
             </div>
+          </div>
 
-            {/* The original request */}
-            <div className="px-4 pt-3">
-              <div className="flex justify-start">
-                <div className="bg-white border border-slate-200 rounded-xl rounded-bl-sm px-2.5 py-1.5 max-w-[88%] shadow-sm">
-                  <p className="text-[11px] text-[#0F2A4A] leading-snug">
-                    Hi — can you switch order{" "}
-                    <span className="font-mono">#A-2291</span> to express and
-                    email me a receipt?
-                  </p>
-                  <p className="text-[8px] text-slate-400 mt-0.5">10:02 AM</p>
-                </div>
-              </div>
-            </div>
-
-            {/* Progress bar */}
-            <div className="px-4 pt-3">
-              <div className="flex items-center justify-between mb-1.5">
-                <span className="text-[9px] uppercase tracking-wider text-slate-400 font-medium">
-                  Plan · {completed}/{ACTION_STEPS.length} done
-                </span>
-                <span className="text-[9px] font-mono text-slate-400">
-                  {allDone ? "22s" : "running…"}
-                </span>
-              </div>
-              <div className="h-1.5 w-full rounded-full bg-slate-100 overflow-hidden">
+          {/* Reasoning / plan line */}
+          <div className="mt-3.5">
+            <AnimatePresence mode="wait">
+              {!planReady ? (
                 <motion.div
-                  className="h-full rounded-full bg-gradient-to-r from-[#60A5FA] to-[#1D4ED8]"
-                  animate={{ width: `${progressPct}%` }}
-                  transition={{ duration: 0.5, ease: "easeOut" }}
-                />
-              </div>
-            </div>
+                  key="thinking"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.25 }}
+                  className="inline-flex items-center gap-2 rounded-full bg-[#3B82F6]/8 border border-[#3B82F6]/20 px-3 py-1.5"
+                >
+                  <Brain className="h-3 w-3 text-[#1D4ED8]" />
+                  <span className="text-[10.5px] font-medium text-[#1D4ED8]">
+                    Reading the message
+                  </span>
+                  <span className="flex items-center gap-0.5">
+                    {[0, 1, 2].map((d) => (
+                      <motion.span
+                        key={d}
+                        className="h-1 w-1 rounded-full bg-[#3B82F6]"
+                        animate={{ opacity: [0.3, 1, 0.3], y: [0, -2, 0] }}
+                        transition={{
+                          duration: 0.9,
+                          repeat: Infinity,
+                          delay: d * 0.15,
+                        }}
+                      />
+                    ))}
+                  </span>
+                </motion.div>
+              ) : (
+                <motion.div
+                  key="plan"
+                  initial={{ opacity: 0, y: 4 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.3 }}
+                  className="inline-flex items-center gap-2 rounded-full bg-[#3B82F6]/8 border border-[#3B82F6]/20 px-3 py-1.5"
+                >
+                  <Sparkles className="h-3 w-3 text-[#1D4ED8]" />
+                  <span className="text-[10.5px] font-medium text-[#1D4ED8]">
+                    Plan · refund shipping → ship replacement → confirm
+                  </span>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
 
-            {/* The checklist */}
-            <div className="flex-1 px-4 py-3 space-y-2 overflow-hidden">
-              {ACTION_STEPS.map((step, i) => {
-                const state = stepState(i)
-                return (
-                  <motion.div
-                    key={step.id}
-                    initial={false}
-                    animate={{
-                      borderColor:
-                        state === "running"
-                          ? "rgba(59,130,246,0.4)"
-                          : state === "done"
-                          ? "rgba(16,185,129,0.35)"
-                          : "rgba(226,232,240,1)",
-                      backgroundColor:
-                        state === "running"
-                          ? "rgba(234,242,255,0.7)"
-                          : state === "done"
-                          ? "rgba(236,253,245,0.5)"
-                          : "rgba(248,250,252,0.4)",
-                    }}
-                    transition={{ duration: 0.3 }}
-                    className="flex items-start gap-2.5 rounded-lg border px-2.5 py-2"
+          {/* Actions stream — shrink-0 so rows keep full height and never overlap */}
+          <div className="mt-3.5 space-y-2 shrink-0">
+            {AGENT_ACTIONS.map((action, i) => {
+              const state = actionState(i)
+              return (
+                <motion.div
+                  key={action.id}
+                  initial={false}
+                  animate={{
+                    borderColor:
+                      state === "running"
+                        ? "rgba(59,130,246,0.4)"
+                        : state === "done"
+                        ? "rgba(16,185,129,0.35)"
+                        : "rgba(226,232,240,1)",
+                    backgroundColor:
+                      state === "running"
+                        ? "rgba(234,242,255,0.7)"
+                        : state === "done"
+                        ? "rgba(236,253,245,0.5)"
+                        : "rgba(248,250,252,0.5)",
+                    opacity: state === "idle" ? 0.65 : 1,
+                  }}
+                  transition={{ duration: 0.3 }}
+                  className="flex items-center gap-3 rounded-xl border px-3 py-2.5"
+                >
+                  {/* Brand logo tile */}
+                  <div
+                    className="h-8 w-8 rounded-md flex items-center justify-center shrink-0"
+                    style={{ backgroundColor: action.brand }}
                   >
-                    {/* status node */}
-                    <div className="relative mt-0.5 shrink-0">
-                      <AnimatePresence mode="wait">
-                        {state === "done" ? (
-                          <motion.span
-                            key="done"
-                            initial={{ scale: 0 }}
-                            animate={{ scale: 1 }}
-                            className="flex h-5 w-5 items-center justify-center rounded-full bg-emerald-500 text-white"
-                          >
-                            <Check className="h-3 w-3" strokeWidth={3} />
-                          </motion.span>
-                        ) : state === "running" ? (
-                          <motion.span
-                            key="run"
-                            initial={{ scale: 0.6, opacity: 0 }}
-                            animate={{ scale: 1, opacity: 1 }}
-                            className="relative flex h-5 w-5 items-center justify-center rounded-full bg-[#3B82F6] text-white"
-                          >
-                            <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#3B82F6] opacity-40" />
-                            <step.Icon className="relative h-2.5 w-2.5" />
-                          </motion.span>
-                        ) : (
-                          <motion.span
-                            key="idle"
-                            initial={{ opacity: 0 }}
-                            animate={{ opacity: 1 }}
-                            className="flex h-5 w-5 items-center justify-center rounded-full bg-slate-200 text-slate-400"
-                          >
-                            <step.Icon className="h-2.5 w-2.5" />
-                          </motion.span>
-                        )}
-                      </AnimatePresence>
-                    </div>
+                    <action.Logo className="h-4 w-4 text-white" />
+                  </div>
 
-                    <div className="min-w-0 flex-1">
-                      <div className="flex items-center gap-2">
-                        <p
-                          className={`text-[11px] font-semibold leading-tight ${
-                            state === "idle"
-                              ? "text-slate-400"
-                              : "text-[#0F2A4A]"
-                          }`}
-                        >
-                          {step.label}
-                        </p>
-                        {state === "running" && (
-                          <span className="text-[8.5px] font-medium text-[#1D4ED8]">
-                            running
-                          </span>
-                        )}
-                        {state === "done" && (
-                          <span className="text-[8.5px] font-medium text-emerald-600">
-                            done
-                          </span>
-                        )}
-                      </div>
-                      <AnimatePresence>
-                        {state !== "idle" && (
-                          <motion.p
-                            initial={{ opacity: 0, height: 0 }}
-                            animate={{ opacity: 1, height: "auto" }}
-                            exit={{ opacity: 0, height: 0 }}
-                            transition={{ duration: 0.25 }}
-                            className="mt-0.5 text-[9.5px] text-slate-500 leading-snug overflow-hidden"
-                          >
-                            {step.detail}
-                          </motion.p>
-                        )}
-                      </AnimatePresence>
-                    </div>
-                  </motion.div>
-                )
-              })}
-
-              {/* Done banner */}
-              <AnimatePresence>
-                {allDone && (
-                  <motion.div
-                    key="done-banner"
-                    initial={{ opacity: 0, y: 8, scale: 0.98 }}
-                    animate={{ opacity: 1, y: 0, scale: 1 }}
-                    exit={{ opacity: 0 }}
-                    transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
-                    className="rounded-lg border border-emerald-200 bg-emerald-50 px-2.5 py-2"
-                  >
-                    <div className="flex items-center gap-1.5">
-                      <CheckCircle2 className="h-3.5 w-3.5 text-emerald-600" />
-                      <span className="text-[10px] font-semibold text-emerald-800">
-                        Done · no human needed · 22s
-                      </span>
-                    </div>
-                    <p className="mt-1 text-[9.5px] text-emerald-900/80 leading-snug">
-                      Order updated, receipt sent, customer confirmed — start to
-                      finish, from one message.
+                  {/* Label + detail */}
+                  <div className="min-w-0 flex-1">
+                    <p
+                      className={`text-[12px] font-semibold leading-tight ${
+                        state === "idle" ? "text-slate-400" : "text-[#0F2A4A]"
+                      }`}
+                    >
+                      {action.label}
                     </p>
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </div>
-          </section>
+                    <AnimatePresence>
+                      {state !== "idle" && (
+                        <motion.p
+                          initial={{ opacity: 0, height: 0 }}
+                          animate={{ opacity: 1, height: "auto" }}
+                          exit={{ opacity: 0, height: 0 }}
+                          transition={{ duration: 0.25 }}
+                          className="mt-0.5 text-[10px] text-slate-500 leading-snug overflow-hidden"
+                        >
+                          {action.detail}
+                        </motion.p>
+                      )}
+                    </AnimatePresence>
+                  </div>
+
+                  {/* Status node */}
+                  <div className="relative shrink-0">
+                    <AnimatePresence mode="wait">
+                      {state === "done" ? (
+                        <motion.span
+                          key="done"
+                          initial={{ scale: 0 }}
+                          animate={{ scale: 1 }}
+                          className="flex h-5 w-5 items-center justify-center rounded-full bg-emerald-500 text-white"
+                        >
+                          <Check className="h-3 w-3" strokeWidth={3} />
+                        </motion.span>
+                      ) : state === "running" ? (
+                        <motion.span
+                          key="run"
+                          initial={{ scale: 0.6, opacity: 0 }}
+                          animate={{ scale: 1, opacity: 1 }}
+                          className="relative flex h-5 w-5 items-center justify-center"
+                        >
+                          <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#3B82F6] opacity-30" />
+                          <RefreshCw className="relative h-3.5 w-3.5 text-[#1D4ED8] animate-spin" />
+                        </motion.span>
+                      ) : (
+                        <motion.span
+                          key="idle"
+                          initial={{ opacity: 0 }}
+                          animate={{ opacity: 1 }}
+                          className="flex h-5 w-5 items-center justify-center"
+                        >
+                          <span className="h-2 w-2 rounded-full bg-slate-300" />
+                        </motion.span>
+                      )}
+                    </AnimatePresence>
+                  </div>
+                </motion.div>
+              )
+            })}
+          </div>
+
+          {/* Success footer */}
+          <AnimatePresence>
+            {allDone && (
+              <motion.div
+                key="footer"
+                initial={{ opacity: 0, y: 8 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.35, delay: 0.1 }}
+                className="mt-3 flex items-center gap-1.5 rounded-xl border border-emerald-200 bg-emerald-50 px-3 py-2"
+              >
+                <CheckCircle2 className="h-3.5 w-3.5 text-emerald-600 shrink-0" />
+                <span className="text-[11px] font-semibold text-emerald-800">
+                  Resolved in 14s · 3 tools · 0 humans
+                </span>
+              </motion.div>
+            )}
+          </AnimatePresence>
         </div>
       </div>
-    </div>
-  )
-}
-
-function ToolRow({
-  Icon,
-  label,
-  meta,
-  active,
-}: {
-  Icon: typeof Database
-  label: string
-  meta: string
-  active?: boolean
-}) {
-  return (
-    <motion.div
-      animate={
-        active
-          ? {
-              borderColor: "rgba(59,130,246,0.4)",
-              boxShadow: "0 0 0 3px rgba(59,130,246,0.08)",
-            }
-          : {
-              borderColor: "rgba(226,232,240,1)",
-              boxShadow: "0 0 0 0 rgba(0,0,0,0)",
-            }
-      }
-      transition={{ duration: 0.3 }}
-      className="flex items-center gap-2 rounded-lg border bg-white px-2 py-1.5"
-    >
-      <div
-        className={`h-6 w-6 rounded-md flex items-center justify-center shrink-0 ${
-          active ? "bg-[#3B82F6]/10" : "bg-slate-100"
-        }`}
-      >
-        <Icon
-          className={`h-3 w-3 ${active ? "text-[#1D4ED8]" : "text-slate-500"}`}
-        />
-      </div>
-      <div className="min-w-0 flex-1">
-        <p className="text-[10px] font-medium text-[#0F2A4A] truncate">
-          {label}
-        </p>
-        <p className="text-[9px] text-slate-400 truncate">{meta}</p>
-      </div>
-      {active && (
-        <motion.span
-          initial={{ scale: 0 }}
-          animate={{ scale: 1 }}
-          className="h-1.5 w-1.5 rounded-full bg-[#3B82F6]"
-        />
-      )}
-    </motion.div>
-  )
-}
-
-function RailStat({
-  label,
-  value,
-  tone,
-}: {
-  label: string
-  value: string
-  tone: "blue" | "emerald" | "amber"
-}) {
-  const toneClass = {
-    blue: "text-[#1D4ED8]",
-    emerald: "text-emerald-600",
-    amber: "text-amber-600",
-  }
-  return (
-    <div className="flex items-center justify-between">
-      <span className="text-[10px] text-slate-500">{label}</span>
-      <span className={`text-[11px] font-semibold ${toneClass[tone]}`}>
-        {value}
-      </span>
     </div>
   )
 }
@@ -1552,79 +1451,7 @@ export default function AgenticAiPage() {
               </BlurFade>
             </div>
 
-            <BlurFade delay={0.1}>
-              <div className="relative rounded-3xl border border-slate-200 bg-white p-6 lg:p-10 shadow-[0_20px_50px_-30px_rgba(15,42,74,0.25)]">
-                {/* glow */}
-                <div
-                  aria-hidden="true"
-                  className="pointer-events-none absolute inset-0 -z-0 opacity-60"
-                  style={{
-                    background:
-                      "radial-gradient(ellipse 50% 60% at 50% 50%, rgba(96,165,250,0.12), transparent 70%)",
-                  }}
-                />
-                <div className="relative grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-4 items-center">
-                  {/* left column nodes */}
-                  <div className="lg:col-span-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-3">
-                    {orchestrationNodes.slice(0, 3).map((n) => (
-                      <NodeTile key={n.label} {...n} align="left" />
-                    ))}
-                  </div>
-
-                  {/* hub */}
-                  <div className="lg:col-span-4 flex flex-col items-center justify-center py-4">
-                    <div className="relative">
-                      <span
-                        aria-hidden="true"
-                        className="absolute -inset-6 rounded-full blur-2xl opacity-70"
-                        style={{
-                          background:
-                            "radial-gradient(closest-side, rgba(59,130,246,0.4), transparent 70%)",
-                        }}
-                      />
-                      <div className="relative h-24 w-24 rounded-3xl bg-gradient-to-br from-[#60A5FA] via-[#3B82F6] to-[#1D4ED8] flex flex-col items-center justify-center shadow-[0_20px_40px_-15px_rgba(29,78,216,0.6)]">
-                        <Bot className="h-9 w-9 text-white" />
-                        <span className="mt-1 text-[10px] font-semibold text-white/90 uppercase tracking-wider">
-                          Agent
-                        </span>
-                      </div>
-                    </div>
-                    <div className="mt-4 inline-flex items-center gap-1.5 rounded-full border border-[#3B82F6]/25 bg-[#EAF2FF] px-3 py-1">
-                      <Sparkles className="h-3 w-3 text-[#1D4ED8]" />
-                      <span className="text-[11px] font-medium text-[#1D4ED8]">
-                        Plans · calls tools · verifies
-                      </span>
-                    </div>
-                    <p className="mt-3 max-w-xs text-center text-[12.5px] text-slate-500 leading-relaxed">
-                      The agent decides which systems to touch, in what order, and
-                      checks the result before it replies.
-                    </p>
-                  </div>
-
-                  {/* right column nodes */}
-                  <div className="lg:col-span-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-3">
-                    {orchestrationNodes.slice(3).map((n) => (
-                      <NodeTile key={n.label} {...n} align="right" />
-                    ))}
-                  </div>
-                </div>
-
-                {/* connector legend */}
-                <div className="relative mt-8 pt-6 border-t border-slate-200 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-[12px] text-slate-500">
-                  {[
-                    "200+ native integrations",
-                    "REST API",
-                    "Webhooks",
-                    "Your data, grounded",
-                  ].map((t) => (
-                    <span key={t} className="flex items-center gap-1.5">
-                      <span className="w-1.5 h-1.5 rounded-full bg-[#3B82F6]" />
-                      {t}
-                    </span>
-                  ))}
-                </div>
-              </div>
-            </BlurFade>
+            <OrchestrationDiagram />
           </div>
         </section>
 
@@ -2126,27 +1953,190 @@ function NodeTile({
   label,
   note,
   align,
+  active,
 }: {
   Icon: typeof Database
   label: string
   note: string
   align: "left" | "right"
+  active?: boolean
 }) {
   return (
-    <div
-      className={`group flex items-center gap-3 rounded-2xl border border-slate-200 bg-white px-3.5 py-3 hover:border-[#3B82F6]/40 hover:shadow-[0_15px_30px_-18px_rgba(15,42,74,0.3)] transition-all duration-300 ${
+    <motion.div
+      animate={{
+        borderColor: active
+          ? "rgba(59,130,246,0.55)"
+          : "rgba(226,232,240,1)",
+        boxShadow: active
+          ? "0 18px 36px -18px rgba(29,78,216,0.5)"
+          : "0 0 0 0 rgba(0,0,0,0)",
+        scale: active ? 1.03 : 1,
+      }}
+      transition={{ duration: 0.35, ease: "easeOut" }}
+      className={`group relative flex items-center gap-3 rounded-2xl border bg-white px-3.5 py-3 ${
         align === "right" ? "lg:flex-row-reverse lg:text-right" : ""
       }`}
     >
-      <div className="h-9 w-9 rounded-xl bg-[#EAF2FF] flex items-center justify-center shrink-0 group-hover:bg-[#3B82F6]/15 transition-colors">
+      {/* data pulse travelling toward the hub while active */}
+      {active && (
+        <motion.span
+          aria-hidden="true"
+          className="hidden lg:block absolute top-1/2 z-10 h-2 w-2 -translate-y-1/2 rounded-full bg-[#3B82F6] shadow-[0_0_10px_2px_rgba(59,130,246,0.5)]"
+          style={align === "right" ? { left: -4 } : { right: -4 }}
+          initial={{ opacity: 0, x: 0 }}
+          animate={{
+            opacity: [0, 1, 0],
+            x: align === "right" ? [-2, -26] : [2, 26],
+          }}
+          transition={{ duration: 0.85, repeat: Infinity, ease: "easeInOut" }}
+        />
+      )}
+      <motion.div
+        animate={{
+          backgroundColor: active
+            ? "rgba(59,130,246,0.16)"
+            : "rgba(234,242,255,1)",
+        }}
+        transition={{ duration: 0.35 }}
+        className="h-9 w-9 rounded-xl flex items-center justify-center shrink-0"
+      >
         <Icon className="h-[18px] w-[18px] text-[#1D4ED8]" />
-      </div>
+      </motion.div>
       <div className="min-w-0">
         <p className="text-[13px] font-semibold text-[#0F2A4A] truncate">
           {label}
         </p>
         <p className="text-[11px] text-slate-500 truncate">{note}</p>
       </div>
-    </div>
+    </motion.div>
+  )
+}
+
+/* ─────────────────────────────────────────────────────────────
+   Orchestration diagram — the agent hub pulses with a rotating halo
+   while it "reaches" each connected system in sequence.
+─────────────────────────────────────────────────────────────── */
+
+function OrchestrationDiagram() {
+  const [phase, setPhase] = useState(0)
+  useEffect(() => {
+    const id = setInterval(
+      () => setPhase((p) => (p + 1) % orchestrationNodes.length),
+      900,
+    )
+    return () => clearInterval(id)
+  }, [])
+
+  return (
+    <BlurFade delay={0.1}>
+      <div className="relative rounded-3xl border border-slate-200 bg-white p-6 lg:p-10 shadow-[0_20px_50px_-30px_rgba(15,42,74,0.25)]">
+        {/* glow */}
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-0 -z-0 opacity-60"
+          style={{
+            background:
+              "radial-gradient(ellipse 50% 60% at 50% 50%, rgba(96,165,250,0.12), transparent 70%)",
+          }}
+        />
+        <div className="relative grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-4 items-center">
+          {/* left column nodes */}
+          <div className="lg:col-span-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-3">
+            {orchestrationNodes.slice(0, 3).map((n, i) => (
+              <NodeTile key={n.label} {...n} align="left" active={phase === i} />
+            ))}
+          </div>
+
+          {/* hub */}
+          <div className="lg:col-span-4 flex flex-col items-center justify-center py-4">
+            <div className="relative">
+              {/* pulsing glow */}
+              <motion.span
+                aria-hidden="true"
+                className="absolute -inset-6 rounded-full blur-2xl"
+                style={{
+                  background:
+                    "radial-gradient(closest-side, rgba(59,130,246,0.45), transparent 70%)",
+                }}
+                animate={{ opacity: [0.5, 0.85, 0.5], scale: [1, 1.1, 1] }}
+                transition={{ duration: 2.6, repeat: Infinity, ease: "easeInOut" }}
+              />
+              {/* rotating halo ring */}
+              <motion.span
+                aria-hidden="true"
+                className="absolute -inset-[3px] rounded-[28px]"
+                style={{
+                  background:
+                    "conic-gradient(from 0deg, transparent 0deg, rgba(96,165,250,0.7) 55deg, transparent 130deg)",
+                }}
+                animate={{ rotate: 360 }}
+                transition={{ duration: 4.5, repeat: Infinity, ease: "linear" }}
+              />
+              <motion.div
+                animate={{ scale: [1, 1.045, 1] }}
+                transition={{ duration: 2.6, repeat: Infinity, ease: "easeInOut" }}
+                className="relative h-24 w-24 rounded-3xl bg-gradient-to-br from-[#60A5FA] via-[#3B82F6] to-[#1D4ED8] flex flex-col items-center justify-center shadow-[0_20px_40px_-15px_rgba(29,78,216,0.6)]"
+              >
+                <Bot className="h-9 w-9 text-white" />
+                <span className="mt-1 text-[10px] font-semibold text-white/90 uppercase tracking-wider">
+                  Agent
+                </span>
+              </motion.div>
+            </div>
+            <div className="mt-4 inline-flex items-center gap-1.5 rounded-full border border-[#3B82F6]/25 bg-[#EAF2FF] px-3 py-1">
+              <motion.span
+                animate={{ rotate: [0, 18, -12, 0], scale: [1, 1.15, 1] }}
+                transition={{ duration: 2.2, repeat: Infinity, ease: "easeInOut" }}
+              >
+                <Sparkles className="h-3 w-3 text-[#1D4ED8]" />
+              </motion.span>
+              <span className="text-[11px] font-medium text-[#1D4ED8]">
+                Plans · calls tools · verifies
+              </span>
+            </div>
+            <p className="mt-3 max-w-xs text-center text-[12.5px] text-slate-500 leading-relaxed">
+              The agent decides which systems to touch, in what order, and checks
+              the result before it replies.
+            </p>
+          </div>
+
+          {/* right column nodes */}
+          <div className="lg:col-span-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-3">
+            {orchestrationNodes.slice(3).map((n, i) => (
+              <NodeTile
+                key={n.label}
+                {...n}
+                align="right"
+                active={phase === i + 3}
+              />
+            ))}
+          </div>
+        </div>
+
+        {/* connector legend */}
+        <div className="relative mt-8 pt-6 border-t border-slate-200 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-[12px] text-slate-500">
+          {[
+            "200+ native integrations",
+            "REST API",
+            "Webhooks",
+            "Your data, grounded",
+          ].map((t, i) => (
+            <span key={t} className="flex items-center gap-1.5">
+              <motion.span
+                className="w-1.5 h-1.5 rounded-full bg-[#3B82F6]"
+                animate={{ opacity: [0.35, 1, 0.35] }}
+                transition={{
+                  duration: 1.6,
+                  repeat: Infinity,
+                  delay: i * 0.2,
+                  ease: "easeInOut",
+                }}
+              />
+              {t}
+            </span>
+          ))}
+        </div>
+      </div>
+    </BlurFade>
   )
 }
