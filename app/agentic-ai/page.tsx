@@ -220,344 +220,182 @@ const trustBadges = [
 ]
 
 /* ─────────────────────────────────────────────────────────────
-   HERO MOCKUP — "Agent at work". One customer message comes in; the
-   agent REASONS (reads → plans) then TAKES REAL ACTIONS across real
-   apps (Shopify, Stripe, Gmail) to finish the task end-to-end, and
-   replies — no human needed. Single-column, phase-driven.
+   HERO VISUAL — Dialpad-style layered composition. A main "AI agent
+   conversation" product panel anchors the scene, with three smaller
+   AI cards floating over its corners (plan · action taken · metric).
+   Everything is absolutely positioned inside a fixed-height container
+   so nothing reflows; each card gently drifts (parallax) via
+   transform/opacity only.
 ─────────────────────────────────────────────────────────────── */
 
-type TaskStepState = "idle" | "running" | "done"
-
-type AgentAction = {
-  id: string
-  Logo: typeof SiShopify
-  brand: string
-  label: string
-  detail: string
-}
-
-const AGENT_ACTIONS: AgentAction[] = [
-  {
-    id: "lookup",
-    Logo: SiShopify,
-    brand: "#95BF47",
-    label: "Looked up the order",
-    detail: "#FC-2841 · delivered, damaged on arrival",
-  },
-  {
-    id: "refund",
-    Logo: SiStripe,
-    brand: "#635BFF",
-    label: "Refunded the shipping",
-    detail: "$6.99 back to the original card",
-  },
-  {
-    id: "replace",
-    Logo: SiShopify,
-    brand: "#95BF47",
-    label: "Shipped a replacement",
-    detail: "#FC-2920 · express, no charge",
-  },
-  {
-    id: "email",
-    Logo: SiGmail,
-    brand: "#EA4335",
-    label: "Emailed the customer",
-    detail: "Tracking + apology on the way",
-  },
-]
-
 function AgenticTaskMockup() {
-  /*
-    Phases:
-      0 = message in, agent "reading…"
-      1 = plan resolved, action 1 running
-      2 = action 1 done, action 2 running
-      3 = action 2 done, action 3 running
-      4 = action 3 done, action 4 running
-      5 = all actions done → final reply + footer
-      6 = hold on the resolved state, then loop
-  */
-  const [phase, setPhase] = useState(0)
-
-  useEffect(() => {
-    let cancelled = false
-    const wait = (ms: number) => new Promise((r) => setTimeout(r, ms))
-    const run = async () => {
-      while (!cancelled) {
-        for (let p = 0; p <= 6; p++) {
-          if (cancelled) return
-          setPhase(p)
-          await wait(
-            p === 0 ? 1500 : p === 5 ? 1400 : p === 6 ? 2600 : 1250
-          )
-        }
-      }
-    }
-    run()
-    return () => {
-      cancelled = true
-    }
-  }, [])
-
-  const actionState = (index: number): TaskStepState => {
-    // action `index` starts running at phase index+1, done at index+2
-    const startPhase = index + 1
-    if (phase < startPhase) return "idle"
-    if (phase === startPhase) return "running"
-    return "done"
-  }
-
-  const planReady = phase >= 1
-  const allDone = phase >= 5
-
   return (
-    <div className="relative w-full max-w-[440px] lg:ml-auto">
-      {/* Glow behind */}
+    <div className="relative w-full max-w-[480px] lg:ml-auto h-[460px]">
+      {/* Soft blue radial glow behind the composition */}
       <div
         aria-hidden="true"
-        className="absolute -inset-6 -z-10 rounded-[32px] blur-3xl opacity-60"
+        className="absolute inset-0 -z-10 blur-3xl opacity-70"
         style={{
           background:
-            "radial-gradient(closest-side, rgba(96,165,250,0.42), transparent 70%)",
+            "radial-gradient(closest-side, rgba(96,165,250,0.45), transparent 72%)",
         }}
       />
 
-      {/* Floating "reasons, then acts" chip */}
+      {/* ── MAIN PANEL (back layer, anchor) ─────────────────────── */}
       <motion.div
-        initial={{ opacity: 0, y: 8 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, delay: 0.4 }}
-        className="absolute -top-3 -left-3 z-20 hidden sm:flex items-center gap-2 rounded-full border border-[#3B82F6]/25 bg-white px-3 py-1.5 shadow-[0_8px_20px_-8px_rgba(15,42,74,0.18)]"
+        initial={{ opacity: 0, y: 18, scale: 0.97 }}
+        animate={{ opacity: 1, y: 0, scale: 1 }}
+        transition={{ duration: 0.6, ease: "easeOut" }}
+        className="absolute left-1/2 top-1/2 z-10 w-[300px] -translate-x-1/2 -translate-y-1/2"
       >
-        <Brain className="h-3 w-3 text-[#1D4ED8]" />
-        <span className="text-[11px] font-medium text-[#0F2A4A]">
-          Reasons, then acts
-        </span>
-      </motion.div>
-
-      {/* Floating outcome chip */}
-      <motion.div
-        initial={{ opacity: 0, y: 8 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, delay: 0.5 }}
-        className="absolute -bottom-3 -right-3 z-20 hidden sm:flex items-center gap-2 rounded-full border border-emerald-200 bg-white px-3 py-1.5 shadow-[0_8px_20px_-8px_rgba(15,42,74,0.18)]"
-      >
-        <CheckCircle2 className="h-3 w-3 text-emerald-600" />
-        <span className="text-[11px] font-medium text-[#0F2A4A]">
-          No human needed
-        </span>
-      </motion.div>
-
-      {/* Main window */}
-      <div className="relative rounded-2xl border border-slate-200 bg-white overflow-hidden shadow-[0_30px_60px_-30px_rgba(15,42,74,0.35)]">
-        {/* Window chrome */}
-        <div className="flex items-center gap-1.5 px-3 py-2 border-b border-slate-200 bg-slate-50/80">
-          <span className="h-2.5 w-2.5 rounded-full bg-red-400/70" />
-          <span className="h-2.5 w-2.5 rounded-full bg-amber-400/70" />
-          <span className="h-2.5 w-2.5 rounded-full bg-emerald-400/70" />
-          <span className="ml-3 font-mono text-[10px] text-slate-400">
-            app.floatchat.com · AI agent
-          </span>
-          {allDone ? (
-            <span className="ml-auto inline-flex items-center gap-1 rounded-full bg-emerald-50 border border-emerald-200 px-2 py-0.5 text-[9px] font-medium text-emerald-700">
+        <div className="rounded-2xl border border-slate-200 bg-white overflow-hidden shadow-[0_30px_60px_-30px_rgba(15,42,74,0.4)]">
+          {/* Window chrome */}
+          <div className="flex items-center gap-1.5 px-3 py-2 border-b border-slate-200 bg-slate-50/80">
+            <span className="h-2.5 w-2.5 rounded-full bg-red-400/70" />
+            <span className="h-2.5 w-2.5 rounded-full bg-amber-400/70" />
+            <span className="h-2.5 w-2.5 rounded-full bg-emerald-400/70" />
+            <span className="ml-2.5 font-mono text-[9.5px] text-slate-400 truncate">
+              app.floatchat.com · AI agent
+            </span>
+            <span className="ml-auto inline-flex items-center gap-1 rounded-full bg-emerald-50 border border-emerald-200 px-2 py-0.5 text-[9px] font-medium text-emerald-700 shrink-0">
               <CheckCircle2 className="h-2.5 w-2.5" />
               Resolved
             </span>
-          ) : (
-            <span className="ml-auto inline-flex items-center gap-1 rounded-full bg-[#3B82F6]/10 border border-[#3B82F6]/20 px-2 py-0.5 text-[9px] font-medium text-[#1D4ED8]">
-              <span className="h-1.5 w-1.5 rounded-full bg-[#3B82F6] animate-pulse" />
-              Working…
-            </span>
-          )}
-        </div>
+          </div>
 
-        {/* Single-column run pane — FIXED height so the card never resizes
-            (the footer appears on the resolved phase without growing it). */}
-        <div className="flex flex-col bg-white h-[448px] px-4 py-3.5">
-          {/* Customer message */}
-          <div className="flex items-start gap-2.5">
-            <img
-              src="https://i.pravatar.cc/80?img=5"
-              alt="Customer avatar"
-              loading="lazy"
-              className="h-8 w-8 rounded-full object-cover shrink-0 border border-slate-200"
-            />
-            <div className="min-w-0">
-              <div className="bg-slate-50 border border-slate-200 rounded-2xl rounded-tl-sm px-3 py-2 shadow-sm">
-                <p className="text-[12px] text-[#0F2A4A] leading-snug">
-                  My order arrived damaged — can you send a replacement and
-                  refund the shipping?
-                </p>
+          {/* Conversation */}
+          <div className="px-4 py-4 space-y-3">
+            {/* Customer message */}
+            <div className="flex items-start gap-2.5">
+              <img
+                src="https://i.pravatar.cc/80?img=5"
+                alt="Customer avatar"
+                loading="lazy"
+                className="h-8 w-8 rounded-full object-cover shrink-0 border border-slate-200"
+              />
+              <div className="min-w-0">
+                <div className="bg-slate-50 border border-slate-200 rounded-2xl rounded-tl-sm px-3 py-2 shadow-sm">
+                  <p className="text-[12px] text-[#0F2A4A] leading-snug">
+                    My order arrived damaged — can you replace it and refund
+                    the shipping?
+                  </p>
+                </div>
+                <p className="text-[9px] text-slate-400 mt-1 ml-1">10:02 AM</p>
               </div>
-              <p className="text-[9px] text-slate-400 mt-1 ml-1">10:02 AM</p>
+            </div>
+
+            {/* Agent reply */}
+            <div className="flex items-start justify-end gap-2.5">
+              <div className="min-w-0 flex flex-col items-end">
+                <div className="max-w-[210px] rounded-2xl rounded-tr-sm bg-gradient-to-br from-[#60A5FA] via-[#3B82F6] to-[#1D4ED8] px-3 py-2 shadow-[0_10px_24px_-12px_rgba(29,78,216,0.7)]">
+                  <p className="text-[12px] text-white leading-snug">
+                    Done! I've shipped a replacement and refunded your $6.99
+                    shipping. Tracking is on the way.
+                  </p>
+                </div>
+                <p className="text-[9px] text-slate-400 mt-1 mr-1">10:02 AM</p>
+              </div>
+              <div className="h-8 w-8 rounded-full shrink-0 flex items-center justify-center bg-gradient-to-br from-[#3B82F6] to-[#1D4ED8] shadow-sm">
+                <Bot className="h-4 w-4 text-white" />
+              </div>
             </div>
           </div>
-
-          {/* Reasoning / plan line */}
-          <div className="mt-3.5">
-            <AnimatePresence mode="wait">
-              {!planReady ? (
-                <motion.div
-                  key="thinking"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 0.25 }}
-                  className="inline-flex items-center gap-2 rounded-full bg-[#3B82F6]/8 border border-[#3B82F6]/20 px-3 py-1.5"
-                >
-                  <Brain className="h-3 w-3 text-[#1D4ED8]" />
-                  <span className="text-[10.5px] font-medium text-[#1D4ED8]">
-                    Reading the message
-                  </span>
-                  <span className="flex items-center gap-0.5">
-                    {[0, 1, 2].map((d) => (
-                      <motion.span
-                        key={d}
-                        className="h-1 w-1 rounded-full bg-[#3B82F6]"
-                        animate={{ opacity: [0.3, 1, 0.3], y: [0, -2, 0] }}
-                        transition={{
-                          duration: 0.9,
-                          repeat: Infinity,
-                          delay: d * 0.15,
-                        }}
-                      />
-                    ))}
-                  </span>
-                </motion.div>
-              ) : (
-                <motion.div
-                  key="plan"
-                  initial={{ opacity: 0, y: 4 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.3 }}
-                  className="inline-flex items-center gap-2 rounded-full bg-[#3B82F6]/8 border border-[#3B82F6]/20 px-3 py-1.5"
-                >
-                  <Sparkles className="h-3 w-3 text-[#1D4ED8]" />
-                  <span className="text-[10.5px] font-medium text-[#1D4ED8]">
-                    Plan · refund shipping → ship replacement → confirm
-                  </span>
-                </motion.div>
-              )}
-            </AnimatePresence>
-          </div>
-
-          {/* Actions stream — shrink-0 so rows keep full height and never overlap */}
-          <div className="mt-3.5 space-y-2 shrink-0">
-            {AGENT_ACTIONS.map((action, i) => {
-              const state = actionState(i)
-              return (
-                <motion.div
-                  key={action.id}
-                  initial={false}
-                  animate={{
-                    borderColor:
-                      state === "running"
-                        ? "rgba(59,130,246,0.4)"
-                        : state === "done"
-                        ? "rgba(16,185,129,0.35)"
-                        : "rgba(226,232,240,1)",
-                    backgroundColor:
-                      state === "running"
-                        ? "rgba(234,242,255,0.7)"
-                        : state === "done"
-                        ? "rgba(236,253,245,0.5)"
-                        : "rgba(248,250,252,0.5)",
-                    opacity: state === "idle" ? 0.65 : 1,
-                  }}
-                  transition={{ duration: 0.3 }}
-                  className="flex items-center gap-3 rounded-xl border px-3 py-2.5"
-                >
-                  {/* Brand logo tile */}
-                  <div
-                    className="h-8 w-8 rounded-md flex items-center justify-center shrink-0"
-                    style={{ backgroundColor: action.brand }}
-                  >
-                    <action.Logo className="h-4 w-4 text-white" />
-                  </div>
-
-                  {/* Label + detail */}
-                  <div className="min-w-0 flex-1">
-                    <p
-                      className={`text-[12px] font-semibold leading-tight ${
-                        state === "idle" ? "text-slate-400" : "text-[#0F2A4A]"
-                      }`}
-                    >
-                      {action.label}
-                    </p>
-                    <AnimatePresence>
-                      {state !== "idle" && (
-                        <motion.p
-                          initial={{ opacity: 0, height: 0 }}
-                          animate={{ opacity: 1, height: "auto" }}
-                          exit={{ opacity: 0, height: 0 }}
-                          transition={{ duration: 0.25 }}
-                          className="mt-0.5 text-[10px] text-slate-500 leading-snug overflow-hidden"
-                        >
-                          {action.detail}
-                        </motion.p>
-                      )}
-                    </AnimatePresence>
-                  </div>
-
-                  {/* Status node */}
-                  <div className="relative shrink-0">
-                    <AnimatePresence mode="wait">
-                      {state === "done" ? (
-                        <motion.span
-                          key="done"
-                          initial={{ scale: 0 }}
-                          animate={{ scale: 1 }}
-                          className="flex h-5 w-5 items-center justify-center rounded-full bg-emerald-500 text-white"
-                        >
-                          <Check className="h-3 w-3" strokeWidth={3} />
-                        </motion.span>
-                      ) : state === "running" ? (
-                        <motion.span
-                          key="run"
-                          initial={{ scale: 0.6, opacity: 0 }}
-                          animate={{ scale: 1, opacity: 1 }}
-                          className="relative flex h-5 w-5 items-center justify-center"
-                        >
-                          <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#3B82F6] opacity-30" />
-                          <RefreshCw className="relative h-3.5 w-3.5 text-[#1D4ED8] animate-spin" />
-                        </motion.span>
-                      ) : (
-                        <motion.span
-                          key="idle"
-                          initial={{ opacity: 0 }}
-                          animate={{ opacity: 1 }}
-                          className="flex h-5 w-5 items-center justify-center"
-                        >
-                          <span className="h-2 w-2 rounded-full bg-slate-300" />
-                        </motion.span>
-                      )}
-                    </AnimatePresence>
-                  </div>
-                </motion.div>
-              )
-            })}
-          </div>
-
-          {/* Success footer */}
-          <AnimatePresence>
-            {allDone && (
-              <motion.div
-                key="footer"
-                initial={{ opacity: 0, y: 8 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.35, delay: 0.1 }}
-                className="mt-3 flex items-center gap-1.5 rounded-xl border border-emerald-200 bg-emerald-50 px-3 py-2"
-              >
-                <CheckCircle2 className="h-3.5 w-3.5 text-emerald-600 shrink-0" />
-                <span className="text-[11px] font-semibold text-emerald-800">
-                  Resolved in 14s · 3 tools · 0 humans
-                </span>
-              </motion.div>
-            )}
-          </AnimatePresence>
         </div>
-      </div>
+      </motion.div>
+
+      {/* ── FLOATING CARD A — top-left: reasoning / plan ────────── */}
+      <motion.div
+        initial={{ opacity: 0, y: -10, rotate: -3 }}
+        animate={{ opacity: 1, y: [0, -6, 0], rotate: -3 }}
+        transition={{
+          opacity: { duration: 0.5, delay: 0.3 },
+          y: { duration: 4, repeat: Infinity, ease: "easeInOut", delay: 0.3 },
+        }}
+        className="absolute left-0 top-6 z-20 w-[200px] rounded-xl border border-slate-200 bg-white px-3 py-2.5 shadow-[0_16px_34px_-16px_rgba(15,42,74,0.35)]"
+      >
+        <div className="flex items-center gap-2">
+          <span className="flex h-6 w-6 items-center justify-center rounded-md bg-[#3B82F6]/10 shrink-0">
+            <Sparkles className="h-3.5 w-3.5 text-[#1D4ED8]" />
+          </span>
+          <span className="text-[10px] font-semibold uppercase tracking-wide text-[#1D4ED8]">
+            Plan
+          </span>
+        </div>
+        <p className="mt-1.5 text-[11px] text-[#0F2A4A] leading-snug">
+          look up → refund → confirm
+        </p>
+      </motion.div>
+
+      {/* ── FLOATING CARD B — bottom-right: action taken ────────── */}
+      <motion.div
+        initial={{ opacity: 0, y: 12, rotate: 2.5 }}
+        animate={{ opacity: 1, y: [0, -7, 0], rotate: 2.5 }}
+        transition={{
+          opacity: { duration: 0.5, delay: 0.5 },
+          y: { duration: 5, repeat: Infinity, ease: "easeInOut", delay: 0.8 },
+        }}
+        className="absolute bottom-4 right-0 z-30 w-[200px] rounded-xl border border-slate-200 bg-white px-3 py-2.5 shadow-[0_18px_38px_-16px_rgba(15,42,74,0.4)]"
+      >
+        <div className="flex items-center gap-2.5">
+          <span
+            className="flex h-8 w-8 items-center justify-center rounded-lg shrink-0"
+            style={{ backgroundColor: "#635BFF" }}
+          >
+            <SiStripe className="h-4 w-4 text-white" />
+          </span>
+          <div className="min-w-0 flex-1">
+            <div className="flex items-center gap-1.5">
+              <p className="text-[12px] font-semibold text-[#0F2A4A] leading-tight">
+                Refund issued
+              </p>
+              <span className="flex h-3.5 w-3.5 items-center justify-center rounded-full bg-emerald-500 shrink-0">
+                <Check className="h-2.5 w-2.5 text-white" strokeWidth={3} />
+              </span>
+            </div>
+            <p className="text-[10px] text-slate-500 mt-0.5">$6.99 · instant</p>
+          </div>
+        </div>
+      </motion.div>
+
+      {/* ── FLOATING CARD C — upper-right: resolved metric ──────── */}
+      <motion.div
+        initial={{ opacity: 0, y: -8, scale: 0.96 }}
+        animate={{ opacity: 1, y: [0, -5, 0], scale: 1 }}
+        transition={{
+          opacity: { duration: 0.5, delay: 0.7 },
+          scale: { duration: 0.5, delay: 0.7 },
+          y: { duration: 3.4, repeat: Infinity, ease: "easeInOut", delay: 1.1 },
+        }}
+        className="absolute right-1 top-2 z-30 w-[168px] rounded-xl border border-slate-200 bg-white px-3 py-2.5 shadow-[0_16px_34px_-16px_rgba(15,42,74,0.35)]"
+      >
+        <div className="flex items-center gap-2">
+          <motion.span
+            className="h-2 w-2 rounded-full bg-emerald-500 shrink-0"
+            animate={{ opacity: [1, 0.35, 1] }}
+            transition={{ duration: 1.6, repeat: Infinity, ease: "easeInOut" }}
+          />
+          <p className="text-[12px] font-semibold text-[#0F2A4A]">
+            Resolved in 14s
+          </p>
+        </div>
+        <p className="mt-1 text-[10px] text-slate-500">3 tools · 0 humans</p>
+      </motion.div>
+
+      {/* ── Small "Live" avatar chip — bottom-left touch ────────── */}
+      <motion.div
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: [0, -4, 0] }}
+        transition={{
+          opacity: { duration: 0.5, delay: 0.9 },
+          y: { duration: 4.4, repeat: Infinity, ease: "easeInOut", delay: 0.5 },
+        }}
+        className="absolute bottom-10 left-2 z-30 inline-flex items-center gap-1.5 rounded-full border border-[#3B82F6]/25 bg-white px-2.5 py-1 shadow-[0_10px_22px_-10px_rgba(15,42,74,0.3)]"
+      >
+        <span className="flex h-4 w-4 items-center justify-center rounded-full bg-gradient-to-br from-[#3B82F6] to-[#1D4ED8]">
+          <Bot className="h-2.5 w-2.5 text-white" />
+        </span>
+        <span className="text-[10px] font-medium text-[#0F2A4A]">Live</span>
+      </motion.div>
     </div>
   )
 }
