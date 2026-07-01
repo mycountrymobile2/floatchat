@@ -3,47 +3,55 @@
 import { Link, useLocation } from "react-router-dom"
 import { Button } from "@/components/ui/button"
 import { useState, useRef, useEffect } from "react"
-import { Menu, X, ChevronDown, MessageSquare, Bot, Inbox, Phone, MessageCircle, Mail, HelpCircle, Zap, Puzzle, ShoppingCart, Building2, Heart, Home, GraduationCap, UtensilsCrossed, BarChart3, BookOpen, Users, FileText, Activity, Layers, Sparkles, Wand2, Headset, ShoppingBag, CalendarClock, Filter, Boxes } from "lucide-react"
+import { Menu, X, ChevronDown, MessageSquare, Bot, Inbox, Phone, MessageCircle, Mail, HelpCircle, Zap, Puzzle, ShoppingCart, Building2, Heart, Home, GraduationCap, UtensilsCrossed, BarChart3, BookOpen, Users, FileText, Activity, Layers, Sparkles, Wand2, Headset, ShoppingBag, CalendarClock, Filter, Boxes, Instagram, Facebook, Globe, Share2, Megaphone, Radio, Hash, ShieldCheck, GitCompare, Star, Plane, Landmark, Clapperboard, Umbrella, Signal, Rocket } from "lucide-react"
 import { BreadcrumbSchema } from "@/components/json-ld"
+
+// All nav tiles use the site's single blue theme.
+const TILE = { tileBg: "bg-blue-50", tileRing: "ring-blue-100", iconColor: "text-blue-600" }
 
 const productGroups = [
   {
-    heading: "AI",
+    heading: "Platform",
     items: [
-      { name: "Agentic AI", href: "/agentic-ai", icon: Sparkles, desc: "Takes action, not just answers", tileBg: "bg-blue-50", tileRing: "ring-blue-100", iconColor: "text-blue-600", badge: "New" },
-      { name: "AI Agent", href: "/ai-agent", icon: Bot, desc: "Captain resolves 60% of chats", tileBg: "bg-blue-50", tileRing: "ring-blue-100", iconColor: "text-blue-600", badge: "Flagship" },
-      { name: "Agent Copilot", href: "/products/agent-copilot", icon: Wand2, desc: "AI inside the reply box", tileBg: "bg-violet-50", tileRing: "ring-violet-100", iconColor: "text-violet-600" },
-    ],
-  },
-  {
-    heading: "AI agents",
-    items: [
-      { name: "Customer Service", href: "/ai-agents/customer-service", icon: Headset, desc: "Deflect & resolve tickets", tileBg: "bg-sky-50", tileRing: "ring-sky-100", iconColor: "text-sky-600" },
-      { name: "Sales", href: "/ai-agents/sales", icon: ShoppingBag, desc: "Turn chats into orders", tileBg: "bg-emerald-50", tileRing: "ring-emerald-100", iconColor: "text-emerald-600" },
-      { name: "Booking", href: "/ai-agents/booking", icon: CalendarClock, desc: "Fill your calendar", tileBg: "bg-violet-50", tileRing: "ring-violet-100", iconColor: "text-violet-600" },
-      { name: "Lead Qualification", href: "/ai-agents/lead-qualification", icon: Filter, desc: "Score & route leads", tileBg: "bg-rose-50", tileRing: "ring-rose-100", iconColor: "text-rose-600" },
-      { name: "Agent Builder", href: "/ai-agents/agent-builder", icon: Boxes, desc: "Build agents, no code", tileBg: "bg-cyan-50", tileRing: "ring-cyan-100", iconColor: "text-cyan-600" },
+      { name: "Platform Overview", href: "/platform", icon: Layers, desc: "One product, every capability", ...TILE, badge: "New" },
+      { name: "Agentic AI", href: "/agentic-ai", icon: Sparkles, desc: "Takes action, not just answers", ...TILE },
+      { name: "AI Agents", href: "/ai-agents", icon: Bot, desc: "Service, sales, booking & more", ...TILE },
+      { name: "Voice AI Agents", href: "/voice-ai-agents", icon: Phone, desc: "AI that answers the phone", ...TILE },
+      { name: "Agent Copilot", href: "/products/agent-copilot", icon: Wand2, desc: "AI inside the reply box", ...TILE },
+      { name: "Omnichannel Inbox", href: "/products/omnichannel-inbox", icon: Inbox, desc: "Every channel, one inbox", ...TILE },
     ],
   },
   {
     heading: "Channels",
     items: [
-      { name: "Omnichannel Inbox", href: "/products/omnichannel-inbox", icon: Layers, desc: "7 channels, one inbox", tileBg: "bg-indigo-50", tileRing: "ring-indigo-100", iconColor: "text-indigo-600" },
-      { name: "Live Chat", href: "/live-chat", icon: MessageSquare, desc: "Free widget in 5 min", tileBg: "bg-sky-50", tileRing: "ring-sky-100", iconColor: "text-sky-600" },
-      { name: "Inbox", href: "/inbox", icon: Inbox, desc: "10 channels, one screen", tileBg: "bg-blue-50", tileRing: "ring-blue-100", iconColor: "text-blue-600" },
-      { name: "Voice", href: "/voice", icon: Phone, desc: "US numbers from $5/mo", tileBg: "bg-cyan-50", tileRing: "ring-cyan-100", iconColor: "text-cyan-600" },
-      { name: "SMS", href: "/sms", icon: MessageCircle, desc: "$0.005 per segment", tileBg: "bg-violet-50", tileRing: "ring-violet-100", iconColor: "text-violet-600" },
-      { name: "Email", href: "/email", icon: Mail, desc: "Shared team inbox", tileBg: "bg-rose-50", tileRing: "ring-rose-100", iconColor: "text-rose-600" },
-      { name: "WhatsApp", href: "/whatsapp", icon: MessageCircle, desc: "Two-way, free on every plan", tileBg: "bg-emerald-50", tileRing: "ring-emerald-100", iconColor: "text-emerald-600" },
+      { name: "WhatsApp", href: "/channels/whatsapp", icon: MessageCircle, desc: "Official Business API", ...TILE },
+      { name: "Instagram", href: "/channels/instagram", icon: Instagram, desc: "DMs, answered by AI", ...TILE },
+      { name: "Messenger", href: "/channels/messenger", icon: Facebook, desc: "Facebook Messenger, 24/7", ...TILE },
+      { name: "Web Chat", href: "/channels/web-chat", icon: Globe, desc: "Widget for your site", ...TILE },
+      { name: "Voice", href: "/channels/voice", icon: Phone, desc: "Calls in your inbox", ...TILE },
+      { name: "Social", href: "/channels/social", icon: Share2, desc: "Every social DM, unified", ...TILE },
     ],
   },
   {
-    heading: "Platform",
+    heading: "Broadcasting & Numbers",
     items: [
-      { name: "Analytics", href: "/products/analytics", icon: BarChart3, desc: "Dashboards & insights", tileBg: "bg-blue-50", tileRing: "ring-blue-100", iconColor: "text-blue-600" },
-      { name: "Automation", href: "/automation", icon: Zap, desc: "Auto Reply from $9.99", tileBg: "bg-amber-50", tileRing: "ring-amber-100", iconColor: "text-amber-600" },
-      { name: "Integrations", href: "/integrations", icon: Puzzle, desc: "Shopify, Slack, HubSpot +30", tileBg: "bg-purple-50", tileRing: "ring-purple-100", iconColor: "text-purple-600" },
-      { name: "Help Center", href: "/help-center", icon: HelpCircle, desc: "SEO-friendly knowledge base", tileBg: "bg-teal-50", tileRing: "ring-teal-100", iconColor: "text-teal-600" },
+      { name: "WhatsApp Broadcasting", href: "/channels/whatsapp-broadcasting", icon: Megaphone, desc: "Template campaigns at scale", ...TILE },
+      { name: "RCS Messaging", href: "/channels/rcs", icon: Radio, desc: "Rich cards & suggested replies", ...TILE },
+      { name: "RCS Broadcasting", href: "/channels/rcs-broadcasting", icon: Megaphone, desc: "Rich campaigns + SMS fallback", ...TILE },
+      { name: "SMS Broadcasting", href: "/channels/sms-broadcasting", icon: MessageSquare, desc: "Bulk A2P campaigns", ...TILE },
+      { name: "Virtual Numbers", href: "/numbers/did", icon: Hash, desc: "Local, toll-free & short codes", ...TILE },
+      { name: "Integrations", href: "/integrations", icon: Puzzle, desc: "200+ apps & CRMs", ...TILE },
+    ],
+  },
+  {
+    heading: "Why FloatChat",
+    items: [
+      { name: "Why FloatChat", href: "/why-floatchat", icon: Star, desc: "One platform vs the stack", ...TILE },
+      { name: "Compare", href: "/compare", icon: GitCompare, desc: "vs Haptik, Twilio & more", ...TILE },
+      { name: "Security", href: "/platform/security", icon: ShieldCheck, desc: "SSO, RBAC & audit logs", ...TILE },
+      { name: "Analytics", href: "/products/analytics", icon: BarChart3, desc: "Dashboards & insights", ...TILE },
+      { name: "Partnerships", href: "/partnerships", icon: Users, desc: "Agency & reseller program", ...TILE },
+      { name: "AI Consulting", href: "/services/ai-consulting", icon: Rocket, desc: "POC to production", ...TILE },
     ],
   },
 ]
@@ -52,126 +60,26 @@ const productGroups = [
 const productLinks = productGroups.flatMap((g) => g.items)
 
 const solutionLinks = [
-  {
-    name: "E-commerce / D2C",
-    href: "/solutions/ecommerce",
-    icon: ShoppingCart,
-    desc: "Shopify, BigCommerce, WooCommerce",
-    tileBg: "bg-rose-50",
-    tileRing: "ring-rose-100",
-    iconColor: "text-rose-600",
-  },
-  {
-    name: "SaaS / B2B",
-    href: "/solutions/saas",
-    icon: Building2,
-    desc: "Trial conversions and customer success",
-    tileBg: "bg-blue-50",
-    tileRing: "ring-blue-100",
-    iconColor: "text-blue-600",
-  },
-  {
-    name: "Healthcare",
-    href: "/solutions/healthcare",
-    icon: Heart,
-    desc: "HIPAA-aware patient communication",
-    tileBg: "bg-emerald-50",
-    tileRing: "ring-emerald-100",
-    iconColor: "text-emerald-600",
-  },
-  {
-    name: "Real Estate",
-    href: "/solutions/real-estate",
-    icon: Home,
-    desc: "Lead capture and tour scheduling",
-    tileBg: "bg-amber-50",
-    tileRing: "ring-amber-100",
-    iconColor: "text-amber-600",
-  },
-  {
-    name: "Education",
-    href: "/solutions/education",
-    icon: GraduationCap,
-    desc: "Student and parent support",
-    tileBg: "bg-violet-50",
-    tileRing: "ring-violet-100",
-    iconColor: "text-violet-600",
-  },
-  {
-    name: "Restaurants",
-    href: "/solutions/restaurants",
-    icon: UtensilsCrossed,
-    desc: "Reservations, orders, reviews",
-    tileBg: "bg-orange-50",
-    tileRing: "ring-orange-100",
-    iconColor: "text-orange-600",
-  },
+  { name: "Retail & eCommerce", href: "/industry/retail", icon: ShoppingCart, desc: "Order updates & cart recovery", ...TILE },
+  { name: "Travel & Hospitality", href: "/industry/travel-and-hospitality", icon: Plane, desc: "Bookings & multilingual support", ...TILE },
+  { name: "Fintech", href: "/industry/fintech", icon: Landmark, desc: "Secure, audit-logged conversations", ...TILE },
+  { name: "Education", href: "/industry/education", icon: GraduationCap, desc: "Admissions to enrollment", ...TILE },
+  { name: "Media & Entertainment", href: "/industry/media-entertainment", icon: Clapperboard, desc: "Ticketing & subscriber support", ...TILE },
+  { name: "Healthcare", href: "/industry/healthcare", icon: Heart, desc: "Appointments & reminders", ...TILE },
+  { name: "Insurance", href: "/industry/insurance", icon: Umbrella, desc: "Quotes, claims & renewals", ...TILE },
+  { name: "Mortgage", href: "/industry/mortgage", icon: Home, desc: "Inquiry to close", ...TILE },
+  { name: "Telecom", href: "/industry/telecom", icon: Signal, desc: "Support & billing at scale", ...TILE },
+  { name: "Real Estate", href: "/industry/real-estate", icon: Building2, desc: "Leads, listings & viewings", ...TILE },
 ]
 
 const resourceLinks = [
-  {
-    name: "Blog",
-    href: "/blog",
-    icon: BookOpen,
-    desc: "Articles, guides, product updates",
-    tileBg: "bg-sky-50",
-    tileRing: "ring-sky-100",
-    iconColor: "text-sky-600",
-  },
-  {
-    name: "Customers",
-    href: "/customers",
-    icon: Users,
-    desc: "Real stories from FloatChat teams",
-    tileBg: "bg-rose-50",
-    tileRing: "ring-rose-100",
-    iconColor: "text-rose-600",
-  },
-  {
-    name: "Help Center",
-    href: "/help",
-    icon: HelpCircle,
-    desc: "Self-serve docs for everything",
-    tileBg: "bg-teal-50",
-    tileRing: "ring-teal-100",
-    iconColor: "text-teal-600",
-  },
-  {
-    name: "Docs",
-    href: "/docs",
-    icon: FileText,
-    desc: "Developer guides and API reference",
-    tileBg: "bg-indigo-50",
-    tileRing: "ring-indigo-100",
-    iconColor: "text-indigo-600",
-  },
-  {
-    name: "Status",
-    href: "/status",
-    icon: Activity,
-    desc: "Live uptime and incidents",
-    tileBg: "bg-emerald-50",
-    tileRing: "ring-emerald-100",
-    iconColor: "text-emerald-600",
-  },
-  {
-    name: "Changelog",
-    href: "/changelog",
-    icon: Layers,
-    desc: "What shipped this week",
-    tileBg: "bg-purple-50",
-    tileRing: "ring-purple-100",
-    iconColor: "text-purple-600",
-  },
-  {
-    name: "About Us",
-    href: "/about-us",
-    icon: Building2,
-    desc: "Our mission and the platform",
-    tileBg: "bg-blue-50",
-    tileRing: "ring-blue-100",
-    iconColor: "text-blue-600",
-  },
+  { name: "Blog", href: "/blog", icon: BookOpen, desc: "Articles, guides, product updates", ...TILE },
+  { name: "Customers", href: "/customers", icon: Users, desc: "Real stories from FloatChat teams", ...TILE },
+  { name: "Help Center", href: "/help", icon: HelpCircle, desc: "Self-serve docs for everything", ...TILE },
+  { name: "Docs", href: "/docs", icon: FileText, desc: "Developer guides and API reference", ...TILE },
+  { name: "Status", href: "/status", icon: Activity, desc: "Live uptime and incidents", ...TILE },
+  { name: "Changelog", href: "/changelog", icon: Layers, desc: "What shipped this week", ...TILE },
+  { name: "About Us", href: "/about-us", icon: Building2, desc: "Our mission and the platform", ...TILE },
 ]
 
 type DropdownKey = "product" | "solutions" | "resources" | null
@@ -325,7 +233,7 @@ export function Header() {
               </div>
           </div>
 
-          {/* Solutions */}
+          {/* Industries */}
           <div
             className="relative"
             onMouseEnter={() => openDropdown("solutions")}
@@ -336,7 +244,7 @@ export function Header() {
               aria-haspopup="true"
               aria-expanded={activeDropdown === "solutions"}
             >
-              Solutions
+              Industries
               <ChevronDown className={`h-3.5 w-3.5 transition-transform duration-200 ${activeDropdown === "solutions" ? "rotate-180" : ""}`} />
             </button>
             <div
@@ -357,7 +265,7 @@ export function Header() {
                     <span className="text-[10px] font-mono text-slate-400">/ 02</span>
                     <span className="h-px w-6 bg-slate-300" />
                     <span className="text-[10px] uppercase tracking-[0.2em] font-semibold text-[#3B82F6]">
-                      Solutions
+                      Industries
                     </span>
                   </div>
                   <span className="text-[10px] text-slate-400">By industry</span>
@@ -527,13 +435,13 @@ export function Header() {
               )}
             </div>
 
-            {/* Solutions accordion */}
+            {/* Industries accordion */}
             <div>
               <button
                 className="flex w-full items-center justify-between py-2 text-sm font-medium text-foreground"
                 onClick={() => setMobileExpanded(mobileExpanded === "solutions" ? null : "solutions")}
               >
-                Solutions
+                Industries
                 <ChevronDown className={`h-4 w-4 transition-transform ${mobileExpanded === "solutions" ? "rotate-180" : ""}`} />
               </button>
               {mobileExpanded === "solutions" && (

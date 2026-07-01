@@ -40,6 +40,45 @@ const OmnichannelInboxPage = lazy(() => import("@/app/products/omnichannel-inbox
 const AboutUsPage = lazy(() => import("@/app/about-us/page"))
 const ContactUsPage = lazy(() => import("@/app/contact-us/page"))
 
+// Lazy loaded — platform & why
+const PlatformPage = lazy(() => import("@/app/platform/page"))
+const PlatformSecurityPage = lazy(() => import("@/app/platform/security/page"))
+const WhyFloatChatPage = lazy(() => import("@/app/why-floatchat/page"))
+const PartnershipsPage = lazy(() => import("@/app/partnerships/page"))
+const AiConsultingServicesPage = lazy(() => import("@/app/services/ai-consulting/page"))
+const VoiceAiAgentsPage = lazy(() => import("@/app/voice-ai-agents/page"))
+const NumbersDidPage = lazy(() => import("@/app/numbers/did/page"))
+
+// Lazy loaded — channels (agentic-AI messaging channels)
+const ChannelWhatsAppPage = lazy(() => import("@/app/channels/whatsapp/page"))
+const ChannelWhatsAppBroadcastingPage = lazy(() => import("@/app/channels/whatsapp-broadcasting/page"))
+const ChannelRcsPage = lazy(() => import("@/app/channels/rcs/page"))
+const ChannelRcsBroadcastingPage = lazy(() => import("@/app/channels/rcs-broadcasting/page"))
+const ChannelSmsBroadcastingPage = lazy(() => import("@/app/channels/sms-broadcasting/page"))
+const ChannelVoicePage = lazy(() => import("@/app/channels/voice/page"))
+const ChannelInstagramPage = lazy(() => import("@/app/channels/instagram/page"))
+const ChannelMessengerPage = lazy(() => import("@/app/channels/messenger/page"))
+const ChannelWebChatPage = lazy(() => import("@/app/channels/web-chat/page"))
+const ChannelSocialPage = lazy(() => import("@/app/channels/social/page"))
+
+// Lazy loaded — industries
+const IndustryRetailPage = lazy(() => import("@/app/industry/retail/page"))
+const IndustryTravelPage = lazy(() => import("@/app/industry/travel-and-hospitality/page"))
+const IndustryFintechPage = lazy(() => import("@/app/industry/fintech/page"))
+const IndustryEducationPage = lazy(() => import("@/app/industry/education/page"))
+const IndustryMediaPage = lazy(() => import("@/app/industry/media-entertainment/page"))
+const IndustryHealthcarePage = lazy(() => import("@/app/industry/healthcare/page"))
+const IndustryInsurancePage = lazy(() => import("@/app/industry/insurance/page"))
+const IndustryMortgagePage = lazy(() => import("@/app/industry/mortgage/page"))
+const IndustryTelecomPage = lazy(() => import("@/app/industry/telecom/page"))
+const IndustryRealEstatePage = lazy(() => import("@/app/industry/real-estate/page"))
+
+// Lazy loaded — competitor comparisons (agentic-AI set)
+const CompareHaptikPage = lazy(() => import("@/app/compare/haptik/page"))
+const CompareTwilioPage = lazy(() => import("@/app/compare/twilio/page"))
+const CompareTwixorPage = lazy(() => import("@/app/compare/twixor/page"))
+const CompareInfobipPage = lazy(() => import("@/app/compare/infobip/page"))
+
 // Lazy loaded — solutions
 const EcommercePage = lazy(() => import("@/app/solutions/ecommerce/page"))
 const SaasPage = lazy(() => import("@/app/solutions/saas/page"))
@@ -189,6 +228,39 @@ export default function App() {
           <Route path="/about-us" element={<AboutUsPage />} />
           <Route path="/contact-us" element={<ContactUsPage />} />
 
+          {/* Platform & why */}
+          <Route path="/platform" element={<PlatformPage />} />
+          <Route path="/platform/security" element={<PlatformSecurityPage />} />
+          <Route path="/why-floatchat" element={<WhyFloatChatPage />} />
+          <Route path="/partnerships" element={<PartnershipsPage />} />
+          <Route path="/services/ai-consulting" element={<AiConsultingServicesPage />} />
+          <Route path="/voice-ai-agents" element={<VoiceAiAgentsPage />} />
+          <Route path="/numbers/did" element={<NumbersDidPage />} />
+
+          {/* Channels */}
+          <Route path="/channels/whatsapp" element={<ChannelWhatsAppPage />} />
+          <Route path="/channels/whatsapp-broadcasting" element={<ChannelWhatsAppBroadcastingPage />} />
+          <Route path="/channels/rcs" element={<ChannelRcsPage />} />
+          <Route path="/channels/rcs-broadcasting" element={<ChannelRcsBroadcastingPage />} />
+          <Route path="/channels/sms-broadcasting" element={<ChannelSmsBroadcastingPage />} />
+          <Route path="/channels/voice" element={<ChannelVoicePage />} />
+          <Route path="/channels/instagram" element={<ChannelInstagramPage />} />
+          <Route path="/channels/messenger" element={<ChannelMessengerPage />} />
+          <Route path="/channels/web-chat" element={<ChannelWebChatPage />} />
+          <Route path="/channels/social" element={<ChannelSocialPage />} />
+
+          {/* Industries */}
+          <Route path="/industry/retail" element={<IndustryRetailPage />} />
+          <Route path="/industry/travel-and-hospitality" element={<IndustryTravelPage />} />
+          <Route path="/industry/fintech" element={<IndustryFintechPage />} />
+          <Route path="/industry/education" element={<IndustryEducationPage />} />
+          <Route path="/industry/media-entertainment" element={<IndustryMediaPage />} />
+          <Route path="/industry/healthcare" element={<IndustryHealthcarePage />} />
+          <Route path="/industry/insurance" element={<IndustryInsurancePage />} />
+          <Route path="/industry/mortgage" element={<IndustryMortgagePage />} />
+          <Route path="/industry/telecom" element={<IndustryTelecomPage />} />
+          <Route path="/industry/real-estate" element={<IndustryRealEstatePage />} />
+
           {/* Solutions */}
           <Route path="/solutions/ecommerce" element={<EcommercePage />} />
           <Route path="/solutions/saas" element={<SaasPage />} />
@@ -199,6 +271,10 @@ export default function App() {
 
           {/* Comparisons */}
           <Route path="/compare" element={<ComparePage />} />
+          <Route path="/compare/haptik" element={<CompareHaptikPage />} />
+          <Route path="/compare/twilio" element={<CompareTwilioPage />} />
+          <Route path="/compare/twixor" element={<CompareTwixorPage />} />
+          <Route path="/compare/infobip" element={<CompareInfobipPage />} />
           <Route path="/vs/intercom" element={<VsIntercomPage />} />
           <Route path="/vs/zendesk" element={<VsZendeskPage />} />
           <Route path="/vs/tidio" element={<VsTidioPage />} />
