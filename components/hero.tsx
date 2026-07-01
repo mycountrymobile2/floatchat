@@ -8,7 +8,7 @@ import { Link } from "react-router-dom"
 import { ArrowUpRight, Send, Download, MousePointer2, Check, Star, MessageCircle } from "lucide-react"
 import { WordRotate } from "@/components/ui/word-rotate"
 
-const rotatingWords = ["agentic AI", "e-commerce", "SaaS", "healthcare", "real estate", "education"]
+const rotatingWords = ["support", "sales", "booking", "leads", "commerce"]
 const trustBadges = [
   { icon: Check, label: "US-hosted" },
   { icon: Check, label: "Free forever plan" },
@@ -203,7 +203,7 @@ export function Hero() {
             transition={{ duration: 0.6, delay: 0.1 }}
             className="mx-auto max-w-3xl xl:max-w-4xl text-center font-medium tracking-tight text-[#0F2A4A] text-4xl sm:text-5xl lg:text-[56px] leading-[1.05] px-6 py-4"
           >
-            The inbox built for{" "}
+            Agentic AI for{" "}
             <WordRotate
               words={rotatingWords}
               className="bg-gradient-to-r from-[#60A5FA] via-[#3B82F6] to-[#1D4ED8] bg-clip-text text-transparent"
@@ -211,7 +211,7 @@ export function Hero() {
             />
             <br />
             <span className="bg-gradient-to-r from-[#60A5FA] via-[#3B82F6] to-[#1D4ED8] bg-clip-text text-transparent">
-              Free. AI from $9.99.
+              on every channel.
             </span>
             <PaperPlane className="inline-block ml-3 h-8 w-8 lg:h-10 lg:w-10 -rotate-12 align-middle" />
           </motion.h1>
@@ -224,7 +224,7 @@ export function Hero() {
           transition={{ duration: 0.5, delay: 0.2 }}
           className="mt-5 text-center text-[15px] lg:text-base text-slate-500 max-w-2xl mx-auto"
         >
-          Live chat, email, and WhatsApp two-way in one inbox. Free forever. Built for US teams.
+          Deploy agentic AI that talks, takes action, and broadcasts across WhatsApp, RCS, SMS, voice, email, and social — all from one platform.
         </motion.p>
 
         {/* Trust badges */}

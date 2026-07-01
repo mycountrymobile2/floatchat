@@ -14,7 +14,7 @@ const jsonLd = {
       "name": "FloatChat",
       "url": "https://floatchat.com",
       "logo": "https://floatchat.com/logo.png",
-      "description": "Free US customer support inbox with live chat, email, and WhatsApp. AI from $9.99. Voice and SMS from $19.99.",
+      "description": "The agentic AI platform for customer conversations — agentic AI that talks, takes action, and broadcasts across WhatsApp, RCS, SMS, voice, email, and social, all from one platform.",
       "sameAs": [
         "https://www.linkedin.com/company/floatchat",
         "https://twitter.com/floatchatHQ"
@@ -82,9 +82,9 @@ const jsonLd = {
 
 export default function Home() {
   useEffect(() => {
-    document.title = "Free Customer Support Inbox - AI from $9.99 | FloatChat"
+    document.title = "FloatChat — The Agentic AI Platform for Customer Conversations"
     const desc = document.querySelector('meta[name="description"]')
-    if (desc) desc.setAttribute("content", "Live chat, email, and WhatsApp two-way in one inbox, free forever. Add AI, voice, and SMS from $9.99. Built for US teams. Start in 30 seconds.")
+    if (desc) desc.setAttribute("content", "Deploy agentic AI that talks, takes action, and broadcasts across WhatsApp, RCS, SMS, voice, email, and social — all from one platform.")
   }, [])
 
   return (

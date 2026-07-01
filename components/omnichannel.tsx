@@ -41,9 +41,9 @@ const items: Cell[] = [
 const OCTAGON = "polygon(25% 0%, 75% 0%, 100% 25%, 100% 75%, 75% 100%, 25% 100%, 0% 75%, 0% 25%)"
 
 const stats = [
-  { value: "10+", label: "Native channels" },
-  { value: "50+", label: "Integrations"    },
-  { value: "1",   label: "Unified inbox"   },
+  { value: "9+",   label: "Native channels"  },
+  { value: "200+", label: "Integrations"     },
+  { value: "1",    label: "Customer record"  },
 ]
 
 
@@ -81,17 +81,17 @@ export function Omnichannel() {
           >
             <div className="inline-flex items-center gap-2 rounded-full border border-border bg-background px-3 py-1 text-xs text-muted-foreground mb-5">
               <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
-              Omnichannel inbox
+              Omnichannel agentic AI
             </div>
 
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-foreground leading-tight mb-4">
               Every channel.<br />
-              <span className="gradient-text">One inbox.</span>
+              <span className="gradient-text">One customer record.</span>
             </h2>
 
             <p className="text-muted-foreground text-sm sm:text-base leading-relaxed mb-7 max-w-sm">
-              WhatsApp, email, Instagram, voice, SMS, TikTok and more — unified with
-              tools like Shopify, HubSpot, Zapier and Salesforce.
+              WhatsApp, RCS, SMS, voice, AI voice, Instagram, Messenger, web chat, and email —
+              every conversation tied to one record, connected to 200+ integrations.
             </p>
 
             <div className="flex gap-8 mb-8">

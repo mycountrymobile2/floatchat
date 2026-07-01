@@ -10,7 +10,7 @@ const faqs: FAQItem[] = [
   {
     question: "How does AI cost work?",
     answer:
-      "AI Chatbot is bundled in the Lite plan at $9.99 (200 replies/month). Starter ($19.99) adds full AI Captain with sentiment, copilot, summary, and knowledge base — 500 replies. Growth 2,000. Pro 10,000. Enterprise unlimited. No per-resolution fees.",
+      "Agentic AI is bundled in the Lite plan at $9.99 (200 replies/month). Starter ($19.99) adds the full agent with sentiment, Agent Copilot, summaries, and a knowledge base — 500 replies. Growth 2,000. Pro 10,000. Enterprise unlimited. No per-resolution fees.",
   },
   {
     question: "Where is my data hosted?",
@@ -20,7 +20,7 @@ const faqs: FAQItem[] = [
   {
     question: "Can I switch from Intercom, Zendesk, or Tidio?",
     answer:
-      "Yes. We export your data, import it to FloatChat, train Captain on your help docs, and have your team live in 48 hours. Free for any business switching from another platform.",
+      "Yes. We export your data, import it to FloatChat, ground your agentic AI on your help docs, and have your team live in 48 hours. Free for any business switching from another platform.",
   },
   {
     question: "What's the catch?",

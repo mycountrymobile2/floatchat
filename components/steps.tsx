@@ -76,7 +76,7 @@ function ReplyVisual() {
         </div>
         <div className="flex items-center gap-1.5 pl-8">
           <MessageSquare className="w-3 h-3 text-primary" />
-          <span className="text-[10px] text-muted-foreground">AI Captain replied in 0.3s</span>
+          <span className="text-[10px] text-muted-foreground">Agentic AI replied in 0.3s</span>
         </div>
       </div>
     </div>
@@ -111,8 +111,8 @@ function Connector({ index }: { index: number }) {
 const steps = [
   {
     number: "01",
-    title: "Sign up free.",
-    description: "No credit card. 30 seconds. One click and your account is live.",
+    title: "Connect your content.",
+    description: "Point the agent at your help docs and site. It grounds itself in your knowledge in minutes.",
     Visual: SignupVisual,
     accent: "#006AFF",
     ring: "ring-blue-200",
@@ -121,8 +121,8 @@ const steps = [
   },
   {
     number: "02",
-    title: "Add your channels.",
-    description: "Drop the chat widget on your site. Connect email, WhatsApp, Shopify in a few clicks.",
+    title: "Set your guardrails.",
+    description: "Connect your channels and tools, then set the rules once — what the agent can do and when to hand off.",
     Visual: ChannelsVisual,
     accent: "#7C3AED",
     ring: "ring-violet-200",
@@ -131,8 +131,8 @@ const steps = [
   },
   {
     number: "03",
-    title: "Start replying.",
-    description: "Your team handles messages from one inbox. Add AI Captain on Lite ($9.99) when ready.",
+    title: "Let it take action.",
+    description: "The agent answers, completes tasks, and broadcasts across every channel — escalating to your team when needed.",
     Visual: ReplyVisual,
     accent: "#059669",
     ring: "ring-emerald-200",
@@ -161,9 +161,9 @@ export function Steps() {
             Setup
           </span>
           <h2 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl text-balance">
-            Live in three steps
+            Agentic AI in three steps
           </h2>
-          <p className="mt-4 text-muted-foreground">Set up in an afternoon. Your team is live the same day.</p>
+          <p className="mt-4 text-muted-foreground">Set guardrails once. Your agent goes live across every channel the same day.</p>
         </motion.div>
 
         {/* Steps row */}
@@ -233,7 +233,7 @@ export function Steps() {
             <Link to="/signup?plan=free">Start Free</Link>
           </Button>
           <p className="mt-3 text-sm text-muted-foreground">
-            Live chat widget on your site in 5 minutes.
+            Agentic AI live across your channels in minutes.
           </p>
         </motion.div>
       </div>

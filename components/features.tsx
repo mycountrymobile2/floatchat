@@ -689,15 +689,15 @@ export function Features() {
               </span>
             </div>
             <h2 className="text-4xl sm:text-5xl lg:text-[56px] font-medium tracking-tight text-[#0F2A4A] leading-[1.05]">
-              Less SaaS.{" "}
+              Agentic AI that{" "}
               <span className="bg-gradient-to-r from-[#60A5FA] via-[#3B82F6] to-[#1D4ED8] bg-clip-text text-transparent">
-                More inbox.
+                takes action.
               </span>
             </h2>
           </BlurFade>
           <BlurFade delay={0.15} className="col-span-12 lg:col-span-4">
             <p className="text-base text-slate-500 leading-relaxed">
-              Everything your team needs to talk to customers — chat, email, WhatsApp, voice, and AI — running in one inbox built for US teams.
+              One platform for customer conversations — agentic AI, voice, broadcasting, and an omnichannel inbox that understands intent and completes tasks across every channel.
             </p>
             <Link
               to="/features"
@@ -711,12 +711,12 @@ export function Features() {
         {/* HERO CARD */}
         <BlurFade delay={0.2}>
           <ShowcaseCard
-            tag="01 — Unified inbox"
-            title="A real free inbox."
-            description="Live chat, email, WhatsApp, Instagram, and Messenger — every conversation in one place. Free forever, no credit card."
+            tag="01 — Omnichannel inbox"
+            title="One agent, every channel."
+            description="One no-code agentic AI answers and acts across WhatsApp, email, voice, Instagram, and Messenger — grounded in your content, routed to a human when needed."
             href="/inbox"
             cta="Open the inbox"
-            badge={{ label: "Free forever", tone: "emerald" }}
+            badge={{ label: "24/7 resolution", tone: "emerald" }}
           >
             <div className="overflow-hidden h-[185px] sm:h-[330px] lg:h-auto">
               <div className="w-[760px] origin-top-left scale-[0.4] sm:scale-[0.72] lg:scale-100 lg:w-auto">
@@ -731,12 +731,12 @@ export function Features() {
           <BlurFade delay={0.25} className="col-span-12 lg:col-span-7">
             <ShowcaseCard
               compact
-              tag="02 — AI Captain"
-              title="AI from $9.99."
-              description="Auto Reply, AI Chatbot, API access, and Webhooks bundled on Lite. No per-resolution fees."
+              tag="02 — Agentic AI"
+              title="Not just answers — action."
+              description="Understands intent, completes multi-step tasks from one request, and orchestrates your connected tools and databases within the guardrails you set."
               href="/ai-agent"
-              cta="Meet Captain"
-              badge={{ label: "98% match", tone: "blue" }}
+              cta="Meet the agent"
+              badge={{ label: "Takes action", tone: "blue" }}
             >
               <AIPreview />
             </ShowcaseCard>
@@ -746,8 +746,8 @@ export function Features() {
             <ShowcaseCard
               compact
               tag="03 — Voice"
-              title="Voice without markup."
-              description="US local numbers from $5/mo. Outbound at $0.008/min."
+              title="Agentic AI voice."
+              description="Natural voice calls with live transcription and summaries — landing in the same omnichannel inbox."
               href="/voice"
               cta="See Voice"
             >
@@ -758,9 +758,9 @@ export function Features() {
           <BlurFade delay={0.35} className="col-span-12 sm:col-span-6 lg:col-span-4">
             <ShowcaseCard
               compact
-              tag="04 — Pricing"
-              title="Pricing that scales."
-              description="From free forever to enterprise. Drag the slider — that's your monthly bill."
+              tag="04 — Broadcasting"
+              title="Broadcast on every channel."
+              description="Run A2P SMS, WhatsApp, and RCS campaigns with segmentation, templates, opt-out, and delivery receipts — from the same platform."
               href="/pricing"
               cta="View pricing"
             >
@@ -772,8 +772,8 @@ export function Features() {
             <ShowcaseCard
               compact
               tag="05 — Channels"
-              title="10 channels, one screen."
-              description="Every channel your customers use — funneled into one shared inbox."
+              title="Every channel, one record."
+              description="WhatsApp, RCS, SMS, voice, Instagram, Messenger, web chat, and email — all tied to one customer record."
               href="/integrations"
               cta="Browse channels"
             >
@@ -785,8 +785,8 @@ export function Features() {
             <ShowcaseCard
               compact
               tag="06 — Automation"
-              title="Automation built in."
-              description="Auto Reply rules, after-hours messages, AI Chatbot — all on Lite."
+              title="Decides and escalates."
+              description="Set guardrails once — the agent decides when to act and when to hand off to a human, all on autopilot."
               href="/automation"
               cta="Explore automation"
             >

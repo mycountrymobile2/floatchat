@@ -291,21 +291,21 @@ export function AIFeatures() {
               </span>
             </div>
             <h2 className="text-4xl sm:text-5xl lg:text-[56px] font-medium tracking-tight text-[#0F2A4A] leading-[1.05]">
-              AI that actually{" "}
+              Agentic AI that{" "}
               <span className="bg-gradient-to-r from-[#60A5FA] via-[#3B82F6] to-[#1D4ED8] bg-clip-text text-transparent">
-                helps your team.
+                does the work.
               </span>
             </h2>
           </div>
           <div className="col-span-12 lg:col-span-4">
             <p className="text-base text-slate-500 leading-relaxed">
-              Stop drowning in tickets. Captain handles repetitive queries, translates conversations, and helps your team respond 3× faster — zero learning curve.
+              Not a scripted chatbot. The agent understands intent, resolves conversations in 100+ languages, and completes tasks across every channel — 24/7, with zero learning curve.
             </p>
             <Link
               to="/ai-agent"
               className="mt-4 inline-flex items-center gap-1.5 text-sm font-medium text-[#1D4ED8] hover:gap-2 transition-all"
             >
-              How Captain works <ArrowUpRight className="h-4 w-4" />
+              How the agent works <ArrowUpRight className="h-4 w-4" />
             </Link>
           </div>
         </div>
@@ -316,9 +316,9 @@ export function AIFeatures() {
           <BentoCard
             icon={Languages}
             tag="01"
-            title="Auto-Translate"
-            description="Real-time translation across 50+ languages."
-            stat="50+"
+            title="Speaks every language"
+            description="The agent understands and replies in 100+ languages in real time."
+            stat="100+"
             statLabel="languages"
             className="md:col-span-4"
           >
@@ -329,8 +329,8 @@ export function AIFeatures() {
           <BentoCard
             icon={MessageSquareText}
             tag="02"
-            title="Sentiment Analysis"
-            description="Detect mood and urgency instantly."
+            title="Reads intent"
+            description="Detects mood and urgency to decide when to act or escalate."
             stat="Live"
             statLabel="detection"
             className="md:col-span-2"
@@ -342,8 +342,8 @@ export function AIFeatures() {
           <BentoCard
             icon={Brain}
             tag="03"
-            title="Smart Auto-Reply"
-            description="AI learns from your best responses. Suggests replies in seconds."
+            title="Acts, not just replies"
+            description="Completes multi-step tasks from one request, grounded in your content."
             stat="5s"
             statLabel="avg response"
             className="md:col-span-3"
@@ -355,8 +355,8 @@ export function AIFeatures() {
           <BentoCard
             icon={SpellCheck}
             tag="04"
-            title="Smart Corrections"
-            description="Fix typos, grammar, and tone automatically before sending."
+            title="Stays on-brand"
+            description="Polishes grammar, spelling, and tone automatically before every send."
             stat="0"
             statLabel="typos"
             className="md:col-span-3"

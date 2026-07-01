@@ -103,9 +103,9 @@ export function CTA() {
             transition={{ duration: 0.65, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
             className="relative text-4xl sm:text-5xl lg:text-6xl font-semibold tracking-tight text-[#0F2A4A] text-balance mb-6 leading-[1.05]"
           >
-            Start free.{" "}
+            One platform.{" "}
             <span className="bg-gradient-to-r from-[#06B6D4] via-[#3B82F6] via-50% to-[#8B5CF6] bg-clip-text text-transparent">
-              Scale when ready.
+              Every conversation.
             </span>
           </motion.h2>
 
@@ -116,7 +116,7 @@ export function CTA() {
             transition={{ duration: 0.55, delay: 0.2 }}
             className="relative text-base sm:text-lg text-slate-500 mb-10 max-w-xl mx-auto leading-relaxed"
           >
-            The customer support platform built for US teams. Replace Intercom, Zendesk, and Tawk — for less than your daily coffee.
+            Put agentic AI, your channels, and your campaigns in one platform — the agentic AI platform for customer conversations.
           </motion.p>
 
           {/* Buttons */}

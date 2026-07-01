@@ -182,20 +182,20 @@ export function AICopilot() {
                 <span className="relative h-1.5 w-1.5 rounded-full bg-[#60A5FA]" />
               </span>
               <span className="text-[11px] font-medium uppercase tracking-[0.2em] text-[#A8C8FF]">
-                Copilot Spotlight
+                Agent Copilot
               </span>
             </div>
 
             <h2 className="mt-6 text-4xl sm:text-5xl lg:text-[56px] font-medium tracking-tight text-white leading-[1.05]">
-              Ask{" "}
+              A{" "}
               <span className="bg-gradient-to-r from-[#7DD3FC] via-[#60A5FA] to-[#3B82F6] bg-clip-text text-transparent">
-                Captain
+                copilot
               </span>{" "}
-              <span className="text-slate-400">anything,</span> mid-chat.
+              <span className="text-slate-400">for your</span> humans.
             </h2>
 
             <p className="mt-5 text-base lg:text-lg text-slate-300 leading-relaxed max-w-md">
-              Copilot lives one keystroke away. Ask any product or policy question and get a sourced answer in 0.4 seconds — without leaving the conversation.
+              The Agent Copilot lives one keystroke away — drafting replies, summarizing threads, and surfacing knowledge-grounded answers so your team resolves faster without leaving the conversation.
             </p>
 
             <div className="mt-7 flex flex-wrap items-center gap-3">
@@ -212,7 +212,7 @@ export function AICopilot() {
                 to="/ai-agent"
                 className="inline-flex items-center gap-1.5 text-sm font-medium text-[#A8C8FF] hover:text-white hover:gap-2 transition-all"
               >
-                <Zap className="h-3.5 w-3.5" /> See how it learns
+                <Zap className="h-3.5 w-3.5" /> See how it assists
               </Link>
             </div>
           </div>
