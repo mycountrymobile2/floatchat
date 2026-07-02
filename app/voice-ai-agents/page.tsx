@@ -319,20 +319,21 @@ function VoiceCallVisual() {
               }
             )}
           </div>
-          <p className="mt-2 text-center text-[9.5px] text-slate-500">
+          <p className="mt-2 h-3.5 leading-[14px] text-center text-[9.5px] text-slate-500 truncate">
             {pipeMeta[stage].sub}
           </p>
         </div>
 
-        {/* Streaming transcript */}
-        <div className="px-4 py-3 min-h-[188px] bg-white">
-          <div className="flex items-center gap-1.5 mb-2">
+        {/* Streaming transcript — fixed height, bottom-anchored, clipped so
+            the card never changes size as lines stream in (no layout jerk). */}
+        <div className="relative h-[196px] px-4 py-3 bg-white flex flex-col">
+          <div className="flex items-center gap-1.5 mb-2 shrink-0">
             <FileText className="h-3 w-3 text-slate-400" />
             <span className="text-[9px] uppercase tracking-wider text-slate-400 font-medium">
               Real-time transcript
             </span>
           </div>
-          <div className="space-y-1.5">
+          <div className="flex-1 min-h-0 overflow-hidden flex flex-col justify-end space-y-1.5">
             <AnimatePresence initial={false}>
               {transcript.slice(0, step + 1).map((line, i) => (
                 <motion.div
@@ -358,37 +359,38 @@ function VoiceCallVisual() {
               ))}
             </AnimatePresence>
           </div>
-        </div>
 
-        {/* Route-to-live-agent branch */}
-        <AnimatePresence>
-          {routing && (
-            <motion.div
-              initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: "auto" }}
-              exit={{ opacity: 0, height: 0 }}
-              transition={{ duration: 0.35 }}
-              className="border-t border-slate-200 bg-slate-50/70 px-4 py-2.5"
-            >
-              <div className="flex items-center gap-2">
-                <GitBranch className="h-3.5 w-3.5 text-slate-700" />
-                <span className="text-[10px] font-semibold text-slate-800">
-                  Routed to live agent · Priya N.
-                </span>
-                <img
-                  src="https://i.pravatar.cc/40?img=45"
-                  alt="Priya N."
-                  loading="lazy"
-                  className="ml-auto h-5 w-5 rounded-full object-cover ring-2 ring-white"
-                />
-              </div>
-              <p className="mt-1 text-[9.5px] text-slate-900 leading-snug">
-                Warm transfer with transcript, intent, and account context —
-                no repeated verification.
-              </p>
-            </motion.div>
-          )}
-        </AnimatePresence>
+          {/* Route-to-live-agent branch — absolute overlay pinned to the
+              transcript's bottom edge, so it never resizes the card. */}
+          <AnimatePresence>
+            {routing && (
+              <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: 10 }}
+                transition={{ duration: 0.35 }}
+                className="absolute inset-x-0 bottom-0 z-10 border-t border-slate-200 bg-slate-50/95 backdrop-blur-sm px-4 py-2.5"
+              >
+                <div className="flex items-center gap-2">
+                  <GitBranch className="h-3.5 w-3.5 text-slate-700" />
+                  <span className="text-[10px] font-semibold text-slate-800">
+                    Routed to live agent · Priya N.
+                  </span>
+                  <img
+                    src="https://i.pravatar.cc/40?img=45"
+                    alt="Priya N."
+                    loading="lazy"
+                    className="ml-auto h-5 w-5 rounded-full object-cover ring-2 ring-white"
+                  />
+                </div>
+                <p className="mt-1 text-[9.5px] text-slate-900 leading-snug">
+                  Warm transfer with transcript, intent, and account context —
+                  no repeated verification.
+                </p>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
 
         {/* Footer status bar */}
         <div className="border-t border-slate-200 bg-white px-3 py-2 flex items-center gap-2">
